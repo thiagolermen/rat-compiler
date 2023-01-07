@@ -14,11 +14,21 @@ type t2 = Ast.AstType.programme
 (* Vérifie la bonne utilisation du type et tranforme l'affectable
 en un affectable de type AstType.affectable et renvoie aussi le type de l'affectable *)
 (* Erreur si problème de typage *)
-let rec analyse_type_affectable info_ast = 
-  match info_ast_to_info info_ast with  
-    | InfoFun (_, t, _) -> (Ident(info_ast), t)
-    | InfoVar (_, t, _, _) -> (Ident(info_ast), t)
-    | InfoConst (_, _) -> (Ident(info_ast), Int)
+let rec analyse_type_affectable a = 
+  match a with
+    | AstTds.Ident info_ast ->
+      begin
+        match info_ast_to_info info_ast with
+          | InfoVar (_, t, _, _) -> (AstType.Ident info_ast, t)
+          | InfoConst _ -> (AstType.Ident info_ast, Int)
+          | _ -> failwith "Erreur interne"
+      end
+    | AstTds.Valeur a ->
+      begin
+        match analyse_type_affectable a with
+          | (na, Pointeur t) -> (Valeur na, t)
+          | _ -> raise NotAPointer
+      end
 
 (* analyse_type_expression : AstTds.expression -> AstType.expression * typ *)
 (* Paramètre e : l'expression à analyser *)
@@ -39,13 +49,8 @@ let rec analyse_type_expression e =
               raise (TypesParametresInattendus (lt, tp))
           | _ -> failwith "Erreur interne"
       end
-    | AstTds.Ident info_ast -> 
-      begin
-        match info_ast_to_info info_ast with
-          | InfoVar (_, t, _, _) -> (AstType.Ident info_ast, t)
-          | InfoConst _ -> (AstType.Ident info_ast, Int)
-          | _ -> failwith "Erreur interne"
-      end
+    | AstTds.Affectable a -> 
+      let (na, ta) = analyse_type_affectable a in (AstType.Affectable na, ta)
     | AstTds.Booleen (i) -> (Booleen (i), Bool)
     | AstTds.Entier (i) -> (Entier (i), Int)
     | AstTds.Unaire (op, e) ->
@@ -71,6 +76,9 @@ let rec analyse_type_expression e =
         | (AstSyntax.Fraction, Type.Int, Type.Int ) -> AstType.Binaire(AstType.Fraction, ne1, ne2), Type.Rat
         | _ -> raise (TypeBinaireInattendu (op, t1, t2))
       end
+    | AstTds.Null -> failwith ""
+    | AstTds.New t -> failwith ""
+    | AstTds.Address n -> failwith ""
 
 
 (* analyse_type_instruction : AstTds.instruction ->  -> AstType.instruction *)
@@ -89,12 +97,12 @@ let rec analyse_type_instruction i =
         else 
           raise (TypeInattendu (texp, t))
     end
-  | AstTds.Affectation (info_ast, e) ->
+  | AstTds.Affectation (a, e) ->
     begin
-      let (na, ta) = analyse_type_affectable info_ast in 
+      let (na, ta) = analyse_type_affectable a in 
       let (ne, te) = analyse_type_expression e in
       if est_compatible ta te then
-        AstType.Affectation (info_ast, ne)
+        AstType.Affectation (na, ne)
       else 
         raise (TypeInattendu (te, ta))
     end
