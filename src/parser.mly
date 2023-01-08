@@ -36,6 +36,7 @@ open Ast.AstSyntax
 %token MULT
 %token INF
 %token EOF
+(* Pointeurs *)
 %token NULL
 %token NEW
 %token ESP
@@ -71,7 +72,7 @@ a :
 
 i :
 | t=typ n=ID EQUAL e1=e PV          {Declaration (t,n,e1)}
-| n=a EQUAL e1=e PV                {Affectation (n,e1)}
+| a1=a EQUAL e1=e PV                {Affectation (a1,e1)}
 | CONST n=ID EQUAL e=ENTIER PV      {Constante (n,e)}
 | PRINT e1=e PV                     {Affichage (e1)}
 | IF exp=e li1=bloc ELSE li2=bloc   {Conditionnelle (exp,li1,li2)}
@@ -79,9 +80,10 @@ i :
 | RETURN exp=e PV                   {Retour (exp)}
 
 typ :
-| BOOL    {Bool}
-| INT     {Int}
-| RAT     {Rat}
+| BOOL          {Bool}
+| INT           {Int}
+| RAT           {Rat}
+| t=typ MULT    {Pointeur (t)}
 
 e : 
 | CALL n=ID PO lp=e* PF   {AppelFonction (n,lp)}
@@ -99,5 +101,6 @@ e :
 | NULL                    {Null}
 | PO NEW t=typ PF         {New t}
 | ESP n=ID                {Address n}
+| affect=a                {Affectable affect}
 
 

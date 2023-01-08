@@ -10,20 +10,18 @@ type t2 = Ast.AstPlacement.programme
 
 let getTailleList liste = List.fold_right (fun r e -> getTaille r + e) liste 0
 
+(* analyse_placement_affectable : AstType.affectable -> AstPlacement.affectable *)
+(* Paramètre a : l'affectable à analyser *)
+let analyse_placement_affectable a = a
+
 (* analyse_placement_expression : AstType.expression -> AstPlacement.expression *)
 (* Paramètre e : l'expression à analyser *)
-(* Vérifie le bon placement mémoire et tranforme l'expression
-en une expression de type AstPlacement.expression *)
-(* Erreur si mauvais placement mémoire *)
 let analyse_placement_expression e = e
 
 (* analyse_placement_instruction : AstType.instruction * int * string -> AstPlacement.instruction*int *)
 (* Paramètre i : l'instruction à analyser *)
 (* Paramètre depl : Déplacement *)
 (* Paramètre reg : Registre *)
-(* Vérifie le bon placement mémoire  et transforme l'instruction
-en une instruction de type AstPlacement.instruction *)
-(* Erreur si mauvais placement mémoire *)
 let rec analyse_placement_instruction (i, depl, reg) =
   match i with
   | AstType.Declaration (info_ast, e) -> 
@@ -68,8 +66,6 @@ let rec analyse_placement_instruction (i, depl, reg) =
 
 
 (* analyse_placement_bloc : AstType.bloc*Int*String -> AstPlacementBloc*Int *)
-(* Vérifie le bon placement mémoire et tranforme le bloc en un bloc de type AstPlacement.bloc *)
-(* Erreur si mauvais placement mémoire *)
 and analyse_placement_bloc li depl reg =
       match li with
       | [] -> ([], 0)
@@ -80,7 +76,6 @@ and analyse_placement_bloc li depl reg =
 
 (* analyse_placement_parametres : AstType.parametres -> AstPlacement.parametres *)
 (* Paramètre lpia : liste des infos_ast sur les paramètres *)
-(* Modifie l'information d'adressage associées aux paramètres et renvoie la taille totale des paramètres *)
 let rec analyse_placement_parametres lpia = 
   match lpia with
   | [] -> 0
@@ -99,9 +94,6 @@ let rec analyse_placement_parametres lpia =
 
 (* analyse_placement_fonction : AstType.fonction -> AstPlacement.fonction*)
 (* Paramètre : la fonction à analyser *)
-(* Vérifie le bon placement mémoire et tranforme la fonction
-en une fonction de type AstPlacement.fonction *)
-(* Erreur si mauvais placement mémoire *)
 let analyse_placement_fonction fonction =
   match fonction with
   | AstType.Fonction (info_ast, linfo_ast, li) ->
@@ -113,9 +105,6 @@ let analyse_placement_fonction fonction =
 
 (* analyser : AstType.programme -> AstPlacement.Programme *)
 (* Paramètre : le programme à analyser *)
-(* Vérifie le bon placement mémoire et tranforme le programme
-en un programme de type AstPlacement.programme *)
-(* Erreur si mauvais placement mémoire *)
 let analyser (AstType.Programme (fonctions,prog)) =
   let nlf = List.map analyse_placement_fonction fonctions in 
   let nli = analyse_placement_bloc prog 0 "SB" in
