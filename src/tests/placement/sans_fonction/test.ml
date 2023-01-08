@@ -46,29 +46,29 @@ let pathFichiersRat = "../../../../../tests/placement/sans_fonction/fichiersRat/
 let%test "testConditionnelleOptionnelle1_1" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",1)  (0,"SB")
 
-(* let%test "testConditionnelleOptionnelle1_2" = 
-  test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",2)  (1,"SB") *)
+let%test "testConditionnelleOptionnelle1_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",2)  (1,"SB")
 
 let%test "testConditionnelleOptionnelle2_1" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",1)  (0,"SB")
 
-(* let%test "testConditionnelleOptionnelle2_2" = 
-  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",2)  (1,"SB") *)
+let%test "testConditionnelleOptionnelle2_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",2)  (1,"SB")
 
 let%test "testConditionnelleOptionnelle2_3" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("y",1)  (1,"SB")
 
-(* let%test "testConditionnelleOptionnelle2_4" = 
-  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",3)  (3,"SB") *)
+let%test "testConditionnelleOptionnelle2_4" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",3)  (2,"SB")
 
 let%test "testConditionnelleOptionnelle3_1" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",1)  (0,"SB")
 
-(* let%test "testConditionnelleOptionnelle3_2" = 
-  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",2)  (1,"SB") *)
+let%test "testConditionnelleOptionnelle3_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",2)  (1,"SB")
 
-(* let%test "testConditionnelleOptionnelle3_3" = 
-  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",3)  (2,"SB") *)
+let%test "testConditionnelleOptionnelle3_3" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",3)  (1,"SB")
 
 let%test "testPointeur1" = 
   test (pathFichiersRat^"testPointeur1.rat")  "main" ("px",1)  (0,"SB")
