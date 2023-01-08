@@ -1,0 +1,9 @@
+rat f (rat x){
+   if x{
+   }
+   return x;
+}
+test{
+   rat x = [3/4];
+   x = call f (x);
+}

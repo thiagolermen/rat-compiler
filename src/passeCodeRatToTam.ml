@@ -126,26 +126,26 @@ let rec analyser_code_instruction i  =
         ^ Tam.subr "BOut"
     | AstPlacement.Conditionnelle(e, b1, b2) ->
       begin
-        let lsinon = getEtiquette() in
-        let lfin = getEtiquette() in
+        let ettsinon = getEtiquette() in
+        let ettfin = getEtiquette() in
         analyser_code_expression e
-        ^ Tam.jumpif 0 lsinon
+        ^ Tam.jumpif 0 ettsinon
         ^ analyser_code_bloc b1
-        ^ Tam.jump lfin
-        ^ lsinon ^ "\n"
+        ^ Tam.jump ettfin
+        ^ ettsinon ^ "\n"
         ^ analyser_code_bloc b2
-        ^ lfin ^ "\n"
+        ^ ettfin ^ "\n"
       end
     | AstPlacement.TantQue(e, b) ->
       begin
-        let ldebut = getEtiquette() in
-        let lfin = getEtiquette() in
-        ldebut ^ "\n"
+        let ettdebut = getEtiquette() in
+        let ettfin = getEtiquette() in
+        ettdebut ^ "\n"
         ^ analyser_code_expression e
-        ^ Tam.jumpif 0 lfin
+        ^ Tam.jumpif 0 ettfin
         ^ analyser_code_bloc b
-        ^ Tam.jump ldebut
-        ^ lfin ^ "\n"
+        ^ Tam.jump ettdebut
+        ^ ettfin ^ "\n"
       end
     | AstPlacement.Retour(e, t, tp) ->
       begin
@@ -153,6 +153,14 @@ let rec analyser_code_instruction i  =
             ^ Tam.return t tp
       end
     | AstPlacement.Empty -> ""
+    | AstPlacement.ConditionnelleOptionnelle (e, b) ->
+      begin
+        let ettfin = getEtiquette() in
+        analyser_code_expression e
+        ^ Tam.jumpif 0 ettfin
+        ^ analyser_code_bloc b
+        ^ ettfin ^ "\n"
+      end
 
 
 (* Passe AstPlacement.bloc -> string *)

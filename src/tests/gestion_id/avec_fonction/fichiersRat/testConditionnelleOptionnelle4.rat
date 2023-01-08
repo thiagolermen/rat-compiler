@@ -1,0 +1,11 @@
+int f (int x){
+  if (x = 7) {
+    return x;
+  }
+  return (x+1);
+}
+
+main{
+    int x = 5;
+    x = call f (x);
+}

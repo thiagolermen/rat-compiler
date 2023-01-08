@@ -1,3 +1,5 @@
 test{
    bool* px = (new bool);
+   (*px) = true;
+   print (*px);
 }

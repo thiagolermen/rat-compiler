@@ -40,6 +40,35 @@ let test fichier fonction (var,occ) (dep,registre) =
 
 let pathFichiersRat = "../../../../../tests/placement/avec_fonction/fichiersRat/"
 
+let%test "testConditionnelleOptionnelle4_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle4.rat")  "f" ("x",1)  (-1,"LB")
+
+(* let%test "testConditionnelleOptionnelle4_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle4.rat")  "f" ("x",2)  (3,"LB") *)
+
+let%test "testConditionnelleOptionnelle5_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle5.rat")  "f" ("x",1)  (-1,"LB")
+
+let%test "testConditionnelleOptionnelle6_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle6.rat")  "f" ("x",1)  (-1,"LB")
+
+let%test "testConditionnelleOptionnelle6_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle6.rat")  "f" ("y",1)  (3,"LB")
+
+(* let%test "testConditionnelleOptionnelle6_3" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle6.rat")  "f" ("x",2)  (3,"LB") *)
+
+let%test "testPointeur7" = 
+  test (pathFichiersRat^"testPointeur7.rat")  "pointeur" ("adx",1)  (-1, "LB")
+
+let%test "testPointeur8_1" = 
+  test (pathFichiersRat^"testPointeur8.rat")  "main" ("x",1)  (0, "SB")
+
+let%test "testPointeur8_2" = 
+  test (pathFichiersRat^"testPointeur8.rat")  "pointeur" ("y",1)  (3, "LB")
+
+let%test "testPointeur8_3" = 
+  test (pathFichiersRat^"testPointeur8.rat")  "main" ("y",1)  (2, "SB")
 
 let%test "test8_x_1" = 
   test (pathFichiersRat^"test8.rat")  "main" ("x",1)  (0, "SB")

@@ -14,8 +14,21 @@ let pathFichiersRat = "../../../../../tests/gestion_id/sans_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "testConditionnelleOptionnelle1" = 
+    let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
+
+let%test_unit "testConditionnelleOptionnelle2" = 
+    let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
+
+let%test_unit "testConditionnelleOptionnelle3" = 
+    try 
+      let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle3.rat")
+      in raise ErreurNonDetectee
+    with
+    | IdentifiantNonDeclare("y") -> ()
+
 let%test_unit "testPointeur1" = 
-  let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
+    let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
 
 let%test_unit "testPointeur2" = 
   let _ = compiler (pathFichiersRat^"testPointeur2.rat") in ()

@@ -43,6 +43,53 @@ let pathFichiersRat = "../../../../../tests/placement/sans_fonction/fichiersRat/
 (*  TESTS *)
 (**********)
 
+let%test "testConditionnelleOptionnelle1_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",1)  (0,"SB")
+
+(* let%test "testConditionnelleOptionnelle1_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",2)  (1,"SB") *)
+
+let%test "testConditionnelleOptionnelle2_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",1)  (0,"SB")
+
+(* let%test "testConditionnelleOptionnelle2_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",2)  (1,"SB") *)
+
+let%test "testConditionnelleOptionnelle2_3" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("y",1)  (1,"SB")
+
+(* let%test "testConditionnelleOptionnelle2_4" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle2.rat")  "main" ("x",3)  (3,"SB") *)
+
+let%test "testConditionnelleOptionnelle3_1" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",1)  (0,"SB")
+
+(* let%test "testConditionnelleOptionnelle3_2" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",2)  (1,"SB") *)
+
+(* let%test "testConditionnelleOptionnelle3_3" = 
+  test (pathFichiersRat^"testConditionnelleOptionnelle3.rat")  "main" ("x",3)  (2,"SB") *)
+
+let%test "testPointeur1" = 
+  test (pathFichiersRat^"testPointeur1.rat")  "main" ("px",1)  (0,"SB")
+
+let%test "testPointeur2" = 
+  test (pathFichiersRat^"testPointeur2.rat")  "main" ("px",1)  (0,"SB")
+
+let%test "testPointeur3" = 
+  test (pathFichiersRat^"testPointeur3.rat")  "main" ("px",1)  (0,"SB")
+
+let%test "testPointeur4" = 
+  test (pathFichiersRat^"testPointeur4.rat")  "main" ("px",1)  (0,"SB")
+
+let%test "testPointeur5" = 
+  test (pathFichiersRat^"testPointeur5.rat")  "main" ("px",1)  (0,"SB")
+
+let%test "testPointeur6" = 
+  test (pathFichiersRat^"testPointeur6.rat")  "main" ("x",1)  (0,"SB")
+
+let%test "testPointeur6" = 
+  test (pathFichiersRat^"testPointeur6.rat")  "main" ("y",1)  (1,"SB")
 
 let%test "test1_x" = 
   test (pathFichiersRat^"test1.rat")  "main" ("x",1)  (0,"SB")

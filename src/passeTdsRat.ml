@@ -18,7 +18,7 @@ let rec analyse_tds_affectable tds a modif =
             match info_ast_to_info info_ast with
               |InfoFun _-> raise (MauvaiseUtilisationIdentifiant n)
               |InfoVar _-> AstTds.Ident info_ast
-              |InfoConst (_,v) -> if modif then raise (MauvaiseUtilisationIdentifiant n) else AstTds.Ident info_ast
+              |InfoConst _ -> if modif then raise (MauvaiseUtilisationIdentifiant n) else AstTds.Ident info_ast
           end
     end
     | AstSyntax.Valeur v -> AstTds.Valeur (analyse_tds_affectable tds v modif)
@@ -101,9 +101,6 @@ let rec analyse_tds_instruction tds oia i =
       begin
         match chercherLocalement tds n with
         | None ->
-          (* L'identifiant n'est pas trouvé dans la tds locale,
-             il n'a donc pas été déclaré dans le bloc courant *)
-          (* Ajout dans la tds de la constante *)
           ajouter tds n (info_to_info_ast (InfoConst (n,v)));
           (* Suppression du noeud de déclaration des constantes devenu inutile *)
           AstTds.Empty
@@ -136,15 +133,24 @@ let rec analyse_tds_instruction tds oia i =
       AstTds.TantQue (nc, bast)
   | AstSyntax.Retour (e) ->
       begin
-      (* On récupère l'information associée à la fonction à laquelle le return est associée *)
-      match oia with
-        (* Il n'y a pas d'information -> l'instruction est dans le bloc principal : erreur *)
-      | None -> raise RetourDansMain
-        (* Il y a une information -> l'instruction est dans une fonction *)
-      | Some ia ->
-        (* Analyse de l'expression *)
-        let ne = analyse_tds_expression tds e in
-        AstTds.Retour (ne,ia)
+        (* On récupère l'information associée à la fonction à laquelle le return est associée *)
+        match oia with
+          (* Il n'y a pas d'information -> l'instruction est dans le bloc principal : erreur *)
+        | None -> raise RetourDansMain
+          (* Il y a une information -> l'instruction est dans une fonction *)
+        | Some ia ->
+          (* Analyse de l'expression *)
+          let ne = analyse_tds_expression tds e in
+          AstTds.Retour (ne,ia)
+      end
+  | AstSyntax.ConditionnelleOptionnelle (c, t) ->
+      begin
+        (* Analyse de la condition *)
+        let nc = analyse_tds_expression tds c in
+        (* Analyse du bloc then *)
+        let tast = analyse_tds_bloc tds oia t in
+        (* Renvoie la nouvelle structure de la conditionnelle optionnelle*)
+        AstTds.ConditionnelleOptionnelle (nc, tast)
       end
 
 

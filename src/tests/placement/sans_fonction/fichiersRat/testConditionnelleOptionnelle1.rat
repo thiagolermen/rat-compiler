@@ -1,0 +1,6 @@
+main{
+   int x = 5;
+   if true{
+      int x = 6;
+   }
+}

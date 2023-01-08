@@ -76,9 +76,14 @@ let rec analyse_type_expression e =
         | (AstSyntax.Fraction, Type.Int, Type.Int ) -> AstType.Binaire(AstType.Fraction, ne1, ne2), Type.Rat
         | _ -> raise (TypeBinaireInattendu (op, t1, t2))
       end
-    | AstTds.Null -> failwith ""
-    | AstTds.New t -> failwith ""
-    | AstTds.Address n -> failwith ""
+    | AstTds.Null -> AstType.Null, Pointeur Undefined
+    | AstTds.New t -> AstType.New t, Pointeur t
+    | AstTds.Address n ->
+      begin
+        match info_ast_to_info n with
+          | InfoVar (_, t, _, _) -> (AstType.Address n, Pointeur (t))
+          | _ -> failwith "Erreur interne"
+      end
 
 
 (* analyse_type_instruction : AstTds.instruction ->  -> AstType.instruction *)
@@ -140,7 +145,14 @@ let rec analyse_type_instruction i =
             raise (TypeInattendu (te, t))
         | _ -> failwith("Erreur interne.")
     end
-  | Empty -> (AstType.Empty)
+  | AstTds.Empty -> (AstType.Empty)
+  | AstTds.ConditionnelleOptionnelle (e, b) -> 
+    let (ne, texp) = analyse_type_expression e in 
+    if est_compatible Bool texp then
+      let nbthen = analyse_type_bloc b in
+      (AstType.ConditionnelleOptionnelle(ne, nbthen))
+    else 
+      raise (TypeInattendu (texp, Bool))
 
 
 (* analyse_type_bloc : AstTds.bloc -> AstType.bloc *)

@@ -1,0 +1,12 @@
+int f (int x){
+   if true{
+      int x = 6;
+   }
+   if true{
+      int x = 7;
+   }
+}
+main{
+   int x = 5;
+   x = call f (x);
+}

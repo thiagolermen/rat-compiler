@@ -78,6 +78,7 @@ i :
 | IF exp=e li1=bloc ELSE li2=bloc   {Conditionnelle (exp,li1,li2)}
 | WHILE exp=e li=bloc               {TantQue (exp,li)}
 | RETURN exp=e PV                   {Retour (exp)}
+| IF exp=e li=bloc                  {ConditionnelleOptionnelle (exp,li)}
 
 typ :
 | BOOL          {Bool}

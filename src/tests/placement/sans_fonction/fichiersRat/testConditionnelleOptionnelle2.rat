@@ -1,0 +1,10 @@
+main{
+   int x = 5;
+   if true{
+      int x = 6;
+   }
+   int y = 3;
+   if true{
+      int x = 7;
+   }
+}

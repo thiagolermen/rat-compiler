@@ -20,6 +20,9 @@ let rec est_compatible t1 t2 =
 let%test _ = est_compatible Bool Bool
 let%test _ = est_compatible Int Int
 let%test _ = est_compatible Rat Rat
+let%test _ = est_compatible (Pointeur Rat) (Pointeur Rat)
+let%test _ = est_compatible (Pointeur (Pointeur (Pointeur Int))) (Pointeur (Pointeur (Pointeur Int)))
+let%test _ = est_compatible (Pointeur (Pointeur (Pointeur Bool))) (Pointeur (Pointeur (Pointeur Bool)))
 let%test _ = not (est_compatible Int Bool)
 let%test _ = not (est_compatible Bool Int)
 let%test _ = not (est_compatible Int Rat)
@@ -33,6 +36,9 @@ let%test _ = not (est_compatible Bool Undefined)
 let%test _ = not (est_compatible Undefined Int)
 let%test _ = not (est_compatible Undefined Rat)
 let%test _ = not (est_compatible Undefined Bool)
+let%test _ = not (est_compatible (Pointeur Rat) (Pointeur Int))
+let%test _ = not (est_compatible (Pointeur (Pointeur (Pointeur Int))) (Pointeur (Pointeur Int)))
+let%test _ = not (est_compatible (Pointeur (Pointeur Bool)) (Pointeur (Pointeur (Pointeur Bool))))
 
 let est_compatible_list lt1 lt2 =
   try
@@ -58,3 +64,9 @@ let getTaille t =
 let%test _ = getTaille Int = 1
 let%test _ = getTaille Bool = 1
 let%test _ = getTaille Rat = 2
+let%test _ = getTaille (Pointeur Int) = 1
+let%test _ = getTaille (Pointeur Rat) = 1
+let%test _ = getTaille (Pointeur Bool) = 1
+let%test _ = getTaille (Pointeur (Pointeur Rat)) = 1
+let%test _ = getTaille (Pointeur (Pointeur (Pointeur Int))) = 1
+let%test _ = getTaille (Pointeur (Pointeur (Pointeur (Pointeur Bool)))) = 1

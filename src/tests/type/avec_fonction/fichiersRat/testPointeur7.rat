@@ -1,0 +1,8 @@
+int pointeur (int* adx) {
+   return ((*adx) + 1);
+}
+
+test{
+    int x = 5;
+    x = call pointeur (&x);
+}

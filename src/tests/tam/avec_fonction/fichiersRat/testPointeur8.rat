@@ -1,0 +1,13 @@
+int pointeur (int* x int z){
+    int* y = &z;
+    (*y) = (*x);
+    return (*y);
+}
+
+main{
+    int* x = (new int);
+    (*x) = 3;
+    int z = 10;
+    int y = call pointeur (x z);
+    print y;
+}

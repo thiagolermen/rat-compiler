@@ -1,0 +1,9 @@
+bool f (bool x){
+   if x{
+   }
+   return x;
+}
+test{
+   bool x = true;
+   x = call f (x);
+}

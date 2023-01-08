@@ -1,0 +1,9 @@
+int f (int x){
+   if (x = 6) {
+   }
+   return x;
+}
+test{
+   int x = 5;
+   x = call f (x);
+}
