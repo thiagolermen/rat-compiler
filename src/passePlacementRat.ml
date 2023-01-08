@@ -103,7 +103,7 @@ let analyse_placement_fonction fonction =
   match fonction with
   | AstType.Fonction (info_ast, linfo_ast, li) ->
     begin 
-      let nlp = analyse_placement_parametres linfo_ast in
+      let _ = analyse_placement_parametres linfo_ast in
       let nli = analyse_placement_bloc li 3 "LB" in
       AstPlacement.Fonction(info_ast, linfo_ast, nli)
     end

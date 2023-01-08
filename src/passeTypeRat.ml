@@ -84,6 +84,17 @@ let rec analyse_type_expression e =
           | InfoVar (_, t, _, _) -> (AstType.Address n, Pointeur (t))
           | _ -> failwith "Erreur interne"
       end
+    | AstTds.ConditionnelleTernaire (c, e1, e2) -> 
+      begin
+        let (nc, tc) = analyse_type_expression c in
+        let (ne1, te1) = analyse_type_expression e1 in
+        let (ne2, te2) = analyse_type_expression e2 in
+        if est_compatible tc Bool then
+          if (te1 = te2) then 
+            (AstType.ConditionnelleTernaire (nc, ne1, ne2), te2)
+          else raise (TypeInattendu (te1, te2))
+        else raise (TypeInattendu (tc, Bool))
+      end
 
 
 (* analyse_type_instruction : AstTds.instruction ->  -> AstType.instruction *)

@@ -47,6 +47,8 @@ type expression =
   | Unaire of unaire * expression
   (* Opération binaire représentée par l'opérateur, l'opérande gauche et l'opérande droite *)
   | Binaire of binaire * expression * expression
+  (* Conditionnelle ternaire représentée par la condition et le expression si condition est vrai et expression si condition est faux*)
+  | ConditionnelleTernaire of expression * expression * expression
 
 (* Instructions de Rat *)
 type bloc = instruction list
@@ -67,6 +69,7 @@ and instruction =
   | Retour of expression
   (* Contitionelle Optionelle représentée par la condition et le bloc then*)
   | ConditionnelleOptionnelle of expression * bloc
+  
 
 (* Structure des fonctions de Rat *)
 (* type de retour - nom - liste des paramètres (association type et nom) - corps de la fonction *)
@@ -102,6 +105,7 @@ struct
     | Entier of int
     | Unaire of AstSyntax.unaire * expression
     | Binaire of AstSyntax.binaire * expression * expression
+    | ConditionnelleTernaire of expression * expression * expression
 
 
   (* instructions existantes dans notre langage *)
@@ -158,6 +162,7 @@ type expression =
   | Entier of int
   | Unaire of unaire * expression
   | Binaire of binaire * expression * expression
+  | ConditionnelleTernaire of expression * expression * expression
 
 (* instructions existantes Rat *)
 (* = instruction de AstTds + informations associées aux identificateurs, mises à jour *)

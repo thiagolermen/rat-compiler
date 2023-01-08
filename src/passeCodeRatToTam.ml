@@ -88,13 +88,22 @@ let rec analyser_code_expression e =
           | AstType.Inf -> Tam.subr "ILss"
           | AstType.Fraction -> ""
       end
-    | Null -> subr "MVoid"
-    | New t -> loadl_int (getTaille t) ^ subr "Malloc"
-    | Address n -> 
+    | AstType.Null -> subr "MVoid"
+    | AstType.New t -> loadl_int (getTaille t) ^ subr "Malloc"
+    | AstType.Address n -> 
       begin
         match info_ast_to_info n with
           | InfoVar (_, _, dep, reg) -> loada dep reg
           | _ -> failwith "Erreur interne"
+      end
+    | AstType.ConditionnelleTernaire (c, e1, e2) -> 
+      begin
+        let cc = analyser_code_expression c in
+        let ce1 = analyser_code_expression e1 in
+        let ce2 = analyser_code_expression e2 in
+        let ettfalse = getEtiquette() in
+        let ettfin = getEtiquette() in
+        cc ^ jumpif 0 ettfalse ^ ce1 ^ jump ettfin ^ label ettfalse ^ ce2 ^ label ettfin
       end
 
 (* Passe AstPlacement.instruction -> string *)
@@ -155,6 +164,7 @@ let rec analyser_code_instruction i  =
     | AstPlacement.Empty -> ""
     | AstPlacement.ConditionnelleOptionnelle (e, b) ->
       begin
+        let _ = getEtiquette() in
         let ettfin = getEtiquette() in
         analyser_code_expression e
         ^ Tam.jumpif 0 ettfin

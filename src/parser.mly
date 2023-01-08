@@ -40,6 +40,9 @@ open Ast.AstSyntax
 %token NULL
 %token NEW
 %token ESP
+(* Conditionelle Ternaire *)
+%token PT_INT
+%token DEUX_PT
 
 (* Type de l'attribut synthétisé des non-terminaux *)
 %type <programme> prog
@@ -103,5 +106,6 @@ e :
 | PO NEW t=typ PF         {New t}
 | ESP n=ID                {Address n}
 | affect=a                {Affectable affect}
+| PO e1=e PT_INT e2=e DEUX_PT e3=e PF {ConditionnelleTernaire (e1, e2, e3)}
 
 

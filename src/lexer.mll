@@ -60,7 +60,11 @@ rule token = parse
 | "+"          { PLUS }
 | "*"          { MULT }
 | "<"          { INF }
+(* Pointeurs *)
 | "&"          { ESP }
+(* Conditionelle Ternaire *)
+| "?"          { PT_INT }
+| ":"          { DEUX_PT }
 
 (* constantes entières *)
 | ("-")?['0'-'9']+ as i

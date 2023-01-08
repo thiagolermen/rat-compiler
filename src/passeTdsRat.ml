@@ -61,6 +61,13 @@ let rec analyse_tds_expression tds e =
                 | InfoConst _ -> raise (MauvaiseUtilisationIdentifiant n)
             end
       end
+    | AstSyntax.ConditionnelleTernaire (c, e1, e2) ->
+      begin
+        let nc = analyse_tds_expression tds c in
+        let ne1 = analyse_tds_expression tds e1 in
+        let ne2 = analyse_tds_expression tds e2 in
+        AstTds.ConditionnelleTernaire (nc, ne1, ne2)
+      end
 
 
 (* analyse_tds_instruction : tds -> info_ast option -> AstSyntax.instruction -> AstTds.instruction *)
