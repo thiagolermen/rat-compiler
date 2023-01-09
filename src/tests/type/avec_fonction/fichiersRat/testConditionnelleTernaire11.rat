@@ -1,0 +1,8 @@
+rat f (int x){
+    return ((x = 5) ? [1/2] : 0);
+}
+
+main{
+    int x = 5;
+    rat y = call f (x);
+}

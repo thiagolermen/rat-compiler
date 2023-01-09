@@ -14,21 +14,48 @@ let pathFichiersRat = "../../../../../tests/gestion_id/sans_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "testConditionnelleTernaire1" =
+  let _ = compiler (pathFichiersRat^"testConditionnelleTernaire1.rat") in ()
+
+let%test_unit "testConditionnelleTernaire2" =
+  let _ = compiler (pathFichiersRat^"testConditionnelleTernaire2.rat") in ()
+
+let%test_unit "testConditionnelleTernaire3" =
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire3.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
+
+let%test_unit "testConditionnelleTernaire4" =
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire4.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
+
+let%test_unit "testConditionnelleTernaire5" =
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire5.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
+
 let%test_unit "testConditionnelleOptionnelle1" = 
-    let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
+  let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
 
 let%test_unit "testConditionnelleOptionnelle2" = 
-    let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
+  let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
 
 let%test_unit "testConditionnelleOptionnelle3" = 
-    try 
-      let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle3.rat")
-      in raise ErreurNonDetectee
-    with
-    | IdentifiantNonDeclare("y") -> ()
+  try 
+    let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle3.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
 
 let%test_unit "testPointeur1" = 
-    let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
+  let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
 
 let%test_unit "testPointeur2" = 
   let _ = compiler (pathFichiersRat^"testPointeur2.rat") in ()

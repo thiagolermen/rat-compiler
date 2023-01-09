@@ -1,0 +1,8 @@
+int f (bool x){
+    return (x ? 1 : 0);
+}
+
+main{
+    bool x = true;
+    int y = call f (x);
+}

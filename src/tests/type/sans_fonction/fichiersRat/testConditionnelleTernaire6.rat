@@ -1,0 +1,4 @@
+test{
+    int x = 5;
+    int y = ((x = 5) ? 1 : true);
+}

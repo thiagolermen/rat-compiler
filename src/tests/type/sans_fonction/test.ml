@@ -14,13 +14,43 @@ let pathFichiersRat = "../../../../../tests/type/sans_fonction/fichiersRat/"
 (*  TESTS *)
 (**********)
 
+let%test_unit "testConditionnelleTernaire1"= 
+  let _ = compiler (pathFichiersRat^"testConditionnelleTernaire1.rat") in ()
+
+let%test_unit "testConditionnelleTernaire2"= 
+  let _ = compiler (pathFichiersRat^"testConditionnelleTernaire2.rat") in ()
+
+let%test_unit "testConditionnelleTernaire3"= 
+  let _ = compiler (pathFichiersRat^"testConditionnelleTernaire3.rat") in ()
+
+let%test_unit "testConditionnelleTernaire4"=
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire4.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Int, Bool) -> ()
+
+let%test_unit "testConditionnelleTernaire5"=
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire5.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Rat, Int) -> ()
+
+let%test_unit "testConditionnelleTernaire6"=
+  try
+    let _ = compiler (pathFichiersRat^"testConditionnelleTernaire6.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Int, Bool) -> ()
+
 let%test_unit "testConditionnelleOptionnelle1"= 
   let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle1.rat") in ()
 
 let%test_unit "testConditionnelleOptionnelle2"= 
   try 
     let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle2.rat")
-    in  raise ErreurNonDetectee
+    in raise ErreurNonDetectee
   with
   | TypeInattendu(Int, Bool) -> ()
 
@@ -30,7 +60,7 @@ let%test_unit "testConditionnelleOptionnelle3"=
 let%test_unit "testConditionnelleOptionnelle4"= 
   try 
     let _ = compiler (pathFichiersRat^"testConditionnelleOptionnelle4.rat")
-    in  raise ErreurNonDetectee
+    in raise ErreurNonDetectee
   with
   | TypeInattendu(Rat, Bool) -> ()
 

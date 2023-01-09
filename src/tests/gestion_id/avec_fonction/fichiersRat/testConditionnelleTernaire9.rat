@@ -1,0 +1,8 @@
+int f (int x){
+    return ((x = 5) ? y : 0);
+}
+
+main{
+    int x = 5;
+    x = call f (x);
+}
