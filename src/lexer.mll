@@ -16,22 +16,25 @@
     let kws = Hashtbl.create 16 in
     List.iter (fun (kw, token) -> Hashtbl.add kws kw token)
       [
-        "const",   CONST;
-        "print",   PRINT;
-        "if",      IF;
-        "else",    ELSE;
-        "while",   WHILE;
-        "bool",    BOOL;
-        "int",     INT;
-        "rat",     RAT;
-        "call",    CALL;
-        "num",     NUM;
-        "denom",   DENOM;
-        "true",    TRUE;
-        "false",   FALSE;
-        "return",  RETURN;
-        "null",    NULL;
-        "new",     NEW
+        "const",    CONST;
+        "print",    PRINT;
+        "if",       IF;
+        "else",     ELSE;
+        "while",    WHILE;
+        "bool",     BOOL;
+        "int",      INT;
+        "rat",      RAT;
+        "call",     CALL;
+        "num",      NUM;
+        "denom",    DENOM;
+        "true",     TRUE;
+        "false",    FALSE;
+        "return",   RETURN;
+        "null",     NULL;
+        "new",      NEW;
+        "loop",     LOOP;
+        "break",    BREAK;
+        "continue", CONTINUE
       ];
     fun id ->
       match Hashtbl.find_opt kws id with

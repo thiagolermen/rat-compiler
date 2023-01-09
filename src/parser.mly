@@ -43,6 +43,10 @@ open Ast.AstSyntax
 (* Conditionelle Ternaire *)
 %token PT_INT
 %token DEUX_PT
+(* loop à la Rust *)
+%token LOOP
+%token BREAK
+%token CONTINUE
 
 (* Type de l'attribut synthétisé des non-terminaux *)
 %type <programme> prog
@@ -82,6 +86,13 @@ i :
 | WHILE exp=e li=bloc               {TantQue (exp,li)}
 | RETURN exp=e PV                   {Retour (exp)}
 | IF exp=e li=bloc                  {ConditionnelleOptionnelle (exp,li)}
+| LOOP li=bloc                      {Loop ("", li)}    
+| n=ID DP LOOP li=bloc              {Loop (n, li)} 
+| BREAK PV                          {Break ("")} 
+| BREAK n=ID PV                     {Break (n)} 
+| CONTINUE PV                       {Continue ("")} 
+| CONTINUE n=ID PV                  {Continue (n)} 
+
 
 typ :
 | BOOL          {Bool}
