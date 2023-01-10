@@ -87,7 +87,7 @@ i :
 | RETURN exp=e PV                   {Retour (exp)}
 | IF exp=e li=bloc                  {ConditionnelleOptionnelle (exp,li)}
 | LOOP li=bloc                      {Loop ("", li)}    
-| n=ID DP LOOP li=bloc              {Loop (n, li)} 
+| n=ID DEUX_PT LOOP li=bloc         {Loop (n, li)} 
 | BREAK PV                          {Break ("")} 
 | BREAK n=ID PV                     {Break (n)} 
 | CONTINUE PV                       {Continue ("")} 

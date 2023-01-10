@@ -171,6 +171,9 @@ let rec analyser_code_instruction i  =
         ^ analyser_code_bloc b
         ^ ettfin ^ "\n"
       end
+    | AstPlacement.Loop _ -> failwith "A FAIRE"
+    | AstPlacement.Break _ -> failwith "A FAIRE"
+    | AstPlacement.Continue _ -> failwith "A FAIRE"
 
 
 (* Passe AstPlacement.bloc -> string *)

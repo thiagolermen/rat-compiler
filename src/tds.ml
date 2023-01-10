@@ -6,6 +6,8 @@ type info =
   | InfoConst of string * int
   | InfoVar of string * typ * int * string
   | InfoFun of string * typ * typ list
+  | InfoLoop of string
+  | NoLoop
 
 (* Données stockées dans la tds  et dans les AST : pointeur sur une information *)
 type info_ast = info ref  
@@ -13,10 +15,16 @@ type info_ast = info ref
 (* Table des symboles hiérarchique *)
 (* Les tables locales sont codées à l'aide d'une hashtable *)
 type tds =
-  | Nulle
-  (* Table courante : la table mère - la table courante *)
-  | Courante of tds * (string,info_ast) Hashtbl.t
+| Nulle
+(* Table courante : la table mère - la table courante *)
+| Courante of tds * (string,info_ast) Hashtbl.t
 
+(* Table des loops des symboles hiérarchique *)
+(* Les tables locales sont codées à l'aide d'une hashtable *)
+type tds_loop =
+| NulleTdsLoop
+(* Table courante : la table mère - la table courante *)
+| CouranteTdsLoop of tds_loop * (string,info_ast) Hashtbl.t
 
 (* Créer une information à associer à l'AST à partir d'une info *)
 let info_to_info_ast i = ref i
@@ -27,9 +35,16 @@ let info_ast_to_info i = !i
 (* Création d'une table des symboles à la racine *)
 let creerTDSMere () = Courante (Nulle, Hashtbl.create 100)
 
+(* Création d'une table des symboles loop à la racine *)
+let creerTDSMereLoop () = CouranteTdsLoop (NulleTdsLoop, Hashtbl.create 100)
+
 (* Création d'une table des symboles fille *)
 (* Le paramètre est la table mère *)
 let creerTDSFille mere = Courante (mere, Hashtbl.create 100)
+
+(* Création d'une table des symboles loop fille *)
+(* Le paramètre est la table mère *)
+let creerTDSFilleLoop mere = CouranteTdsLoop (mere, Hashtbl.create 100)
 
 
 (* Ajoute une information dans la table des symboles locale *)
@@ -42,6 +57,17 @@ let ajouter tds nom info =
   match tds with
   | Nulle -> failwith "Ajout dans une table vide"
   | Courante (_,c) -> Hashtbl.add c nom info
+    
+(* Ajoute une information dans la table des symboles locale *)
+(* tds_loop : la tds loop courante *)
+(* string : le nom de l'identificateur *)
+(* info : l'information à associer à l'identificateur *)
+(* Si l'identificateur est déjà présent dans TDS loop, l'information est écrasée *)
+(* retour : unit *)
+let ajouter_loop tds_loop nom info =
+  match tds_loop with
+  | NulleTdsLoop -> failwith "Ajout dans une table vide"
+  | CouranteTdsLoop (_,c) -> Hashtbl.add c nom info
 
 (* Recherche les informations d'un identificateur dans la tds locale *)
 (* Ne cherche que dans la tds de plus bas niveau *)
@@ -49,6 +75,13 @@ let chercherLocalement tds nom =
   match tds with
   | Nulle -> None
   | Courante (_,c) ->  find_opt c nom 
+
+(* Recherche les informations d'un identificateur dans la tds loop locale *)
+(* Ne cherche que dans la tds de plus bas niveau *)
+let chercherLocalementLoop tds_loop nom =
+  match tds_loop with
+  | NulleTdsLoop -> None
+  | CouranteTdsLoop (_,c) ->  find_opt c nom 
 
 (* TESTS *)
 let%test _ = chercherLocalement (creerTDSMere()) "x" = None
@@ -170,6 +203,18 @@ let rec chercherGlobalement tds nom =
       | Some _ as i -> i
       | None -> chercherGlobalement m nom 
 
+(* Recherche les informations d'un identificateur dans la tds globale *)
+(* Si l'identificateur n'est pas présent dans la tds de plus bas niveau *)
+(* la recherche est effectuée dans sa table mère et ainsi de suite *)
+(* jusqu'à trouver (ou pas) l'identificateur *)
+let rec chercherGlobalementLoop tds_loop nom =
+  match tds_loop with
+  | NulleTdsLoop -> None
+  | CouranteTdsLoop (m,c) ->
+    match find_opt c nom with
+      | Some _ as i -> i
+      | None -> chercherGlobalementLoop m nom 
+
 (* TESTS *)
 
 let%test _ = chercherGlobalement (creerTDSMere()) "x" = None
@@ -287,6 +332,8 @@ let string_of_info info =
   | InfoVar (n,t,dep,base) -> "Variable "^n^" : "^(string_of_type t)^" "^(string_of_int dep)^"["^base^"]"
   | InfoFun (n,t,tp) -> "Fonction "^n^" : "^(List.fold_right (fun elt tq -> if tq = "" then (string_of_type elt) else (string_of_type elt)^" * "^tq) tp "" )^
                       " -> "^(string_of_type t)
+  | InfoLoop n -> "Loop "^n
+  | NoLoop -> "Bloc d'instructions non inclus dans une loop."
 
 (* Affiche la tds locale *)
 let afficher_locale tds =

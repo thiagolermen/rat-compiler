@@ -89,6 +89,9 @@ struct
     | Retour (e) -> "Retour  : RETURN "^(string_of_expression e)^"\n"
     | ConditionnelleOptionnelle (c,t) -> "ConditionnelleOptionnelle : IF "^(string_of_expression c)^"\n"^
                                   "THEN \n"^((List.fold_right (fun i tq -> (string_of_instruction i)^tq) t ""))^"\n"
+    | Loop (n, b) -> "Loop "^n^" : LOOP \n"^((List.fold_right (fun i tq -> (string_of_instruction i)^tq) b ""))^"\n"
+    | Break n -> "Break "^n^"\n"
+    | Continue n -> "Continue "^n^"\n"
 
   (* Conversion des fonctions *)
   let string_of_fonction (Fonction(t,n,lp,li)) = (string_of_type t)^" "^n^" ("^((List.fold_right (fun (t,n) tq -> (string_of_type t)^" "^n^" "^tq) lp ""))^") = \n"^

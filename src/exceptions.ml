@@ -16,3 +16,5 @@ exception NotAPointer
 (* Utilisation illégale de return dans le programme principal *)
 exception RetourDansMain
 
+(* Erreur dans l'identifiant d'un loop lors d'un continue ou break *)
+exception MauvaisNomLoop

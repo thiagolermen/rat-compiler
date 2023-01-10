@@ -69,6 +69,12 @@ and instruction =
   | Retour of expression
   (* Contitionelle Optionelle représentée par la condition et le bloc then*)
   | ConditionnelleOptionnelle of expression * bloc
+  (* Loop représentée par le nom et le bloc *)
+  | Loop of string * bloc
+  (* Break représentée par le nom *)
+  | Break of string
+  (* Continue représentée par le nom *)
+  | Continue of string 
   
 
 (* Structure des fonctions de Rat *)
@@ -122,6 +128,9 @@ struct
     | Retour of expression * Tds.info_ast  (* les informations sur la fonction à laquelle est associé le retour *)
     | Empty (* les nœuds ayant disparus: Const *)
     | ConditionnelleOptionnelle of expression * bloc
+    | Loop of Tds.info_ast * bloc
+    | Break of string
+    | Continue of string
 
 
   (* Structure des fonctions dans notre langage *)
@@ -179,6 +188,9 @@ type bloc = instruction list
   | Retour of expression * Tds.info_ast
   | Empty (* les nœuds ayant disparus: Const *)
   | ConditionnelleOptionnelle of expression * bloc
+  | Loop of Tds.info_ast * bloc
+  | Break of string
+  | Continue of string
 
 (* informations associées à l'identificateur (dont son nom), liste des paramètres, corps *)
 type fonction = Fonction of Tds.info_ast * Tds.info_ast list * bloc
@@ -203,16 +215,19 @@ type expression = AstType.expression
 (* instructions existantes dans notre langage *)
 type bloc = instruction list * int (* taille du bloc *)
  and instruction =
- | Declaration of Tds.info_ast * expression
- | Affectation of affectable * expression
- | AffichageInt of expression
- | AffichageRat of expression
- | AffichageBool of expression
- | Conditionnelle of expression * bloc * bloc
- | TantQue of expression * bloc
- | Retour of expression * int * int (* taille du retour et taille des paramètres *)
- | Empty (* les nœuds ayant disparus: Const *)
- | ConditionnelleOptionnelle of expression * bloc
+  | Declaration of Tds.info_ast * expression
+  | Affectation of affectable * expression
+  | AffichageInt of expression
+  | AffichageRat of expression
+  | AffichageBool of expression
+  | Conditionnelle of expression * bloc * bloc
+  | TantQue of expression * bloc
+  | Retour of expression * int * int (* taille du retour et taille des paramètres *)
+  | Empty (* les nœuds ayant disparus: Const *)
+  | ConditionnelleOptionnelle of expression * bloc
+  | Loop of Tds.info_ast * bloc
+  | Break of string
+  | Continue of string
 
 (* informations associées à l'identificateur (dont son nom), liste de paramètres, corps, expression de retour *)
 (* Plus besoin de la liste des paramètres mais on la garde pour les tests du placements mémoire *)

@@ -68,6 +68,9 @@ let rec analyse_placement_instruction (i, depl, reg) =
         let nb = analyse_placement_bloc b depl reg in
         (AstPlacement.ConditionnelleOptionnelle(e, nb), 0)
       end
+    | AstType.Loop _ -> failwith "A FAIRE"
+    | AstType.Break _ -> failwith "A FAIRE"
+    | AstType.Continue _ -> failwith "A FAIRE"
 
 
 (* analyse_placement_bloc : AstType.bloc*Int*String -> AstPlacementBloc*Int *)
