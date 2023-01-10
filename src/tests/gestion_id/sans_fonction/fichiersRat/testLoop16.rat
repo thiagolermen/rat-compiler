@@ -1,0 +1,15 @@
+test{
+    int x = 0;
+    l1 : loop {
+        x = (x + 1);
+        if (x = 3) {
+            continue l2;
+        }
+        if (x = 5) {
+            break;
+        }
+    }
+    l2 : loop {
+        break;
+    }
+}

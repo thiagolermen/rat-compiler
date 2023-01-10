@@ -1,0 +1,16 @@
+main{
+    int x = 1;
+    loop {
+        int y = 1;
+        int z = 1;
+        if (x = 10) { 
+            int z = 5;
+            break;
+        } else {
+            int y = 5;
+            x = (x + 1);
+        }
+    }
+    int y = 10;
+}
+

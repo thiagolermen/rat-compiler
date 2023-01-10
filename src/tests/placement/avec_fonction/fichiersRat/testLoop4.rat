@@ -1,0 +1,16 @@
+int f (int x){
+    int x = 1;
+    loop {
+        if (x = 10) {
+            break;
+        } else {
+            x = (x + 1);
+        }
+    }
+    int y = 10;
+}
+
+main{
+    int x = 0;
+    int y = call f (x);
+}

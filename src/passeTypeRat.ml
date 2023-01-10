@@ -165,8 +165,8 @@ let rec analyse_type_instruction i =
     else 
       raise (TypeInattendu (texp, Bool))
   | AstTds.Loop (info_ast, bloc) -> AstType.Loop (info_ast, analyse_type_bloc bloc)
-  | AstTds.Break n -> AstType.Break n
-  | AstTds.Continue n -> AstType.Continue n
+  | AstTds.Break info_ast -> AstType.Break info_ast
+  | AstTds.Continue info_ast -> AstType.Continue info_ast
 
 
 (* analyse_type_bloc : AstTds.bloc -> AstType.bloc *)

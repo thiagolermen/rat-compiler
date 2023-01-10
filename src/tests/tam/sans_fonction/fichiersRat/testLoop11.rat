@@ -1,0 +1,19 @@
+test{
+   int x = 0;
+   int y = 0;
+   l : loop {
+      loop {
+         if (y = 3) {
+            break;
+         }
+         y = (y + 1);
+      }
+      y  = 0;
+      if (x = 3) {
+         break l;
+      }
+      x = (x + 1);
+   }
+   print x;
+   print y;
+}

@@ -79,6 +79,7 @@ struct
     | Ast.AstPlacement.Conditionnelle(_,(bt,_),(be,_)) -> (List.flatten (List.map (analyser_instruction) bt))@(List.flatten (List.map (analyser_instruction) be))
     | Ast.AstPlacement.TantQue (_,(b,_)) -> (List.flatten (List.map (analyser_instruction) b))
     | Ast.AstPlacement.ConditionnelleOptionnelle(_,(bt,_)) -> (List.flatten (List.map (analyser_instruction) bt))
+    | Ast.AstPlacement.Loop (_, (bt, _)) -> (List.flatten (List.map (analyser_instruction) bt))
     | _ -> [] 
 
 

@@ -40,6 +40,27 @@ let test fichier fonction (var,occ) (dep,registre) =
 
 let pathFichiersRat = "../../../../../tests/placement/avec_fonction/fichiersRat/"
 
+(* let%test "testLoop4_1" = 
+  test (pathFichiersRat^"testLoop4.rat")  "f" ("x",1)  (-1,"LB")
+
+let%test "testLoop4_1" = 
+  test (pathFichiersRat^"testLoop4.rat")  "f" ("x",1)  (-1,"LB") *)
+
+let%test "testLoop5_1" = 
+  test (pathFichiersRat^"testLoop5.rat")  "f" ("y",2)  (4,"LB")
+
+let%test "testLoop5_1" = 
+  test (pathFichiersRat^"testLoop5.rat")  "f" ("y",1)  (4,"LB")
+
+let%test "testLoop4_3" = 
+  test (pathFichiersRat^"testLoop4.rat")  "f" ("y",1)  (4,"LB")
+
+let%test "testLoop4_2" = 
+  test (pathFichiersRat^"testLoop4.rat")  "f" ("x",2)  (3,"LB")
+
+let%test "testLoop4_1" = 
+  test (pathFichiersRat^"testLoop4.rat")  "f" ("x",1)  (-1,"LB")
+
 let%test "testConditionnelleOptionnelle4_1" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle4.rat")  "f" ("x",1)  (-1,"LB")
 

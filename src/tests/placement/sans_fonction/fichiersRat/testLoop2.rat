@@ -1,0 +1,14 @@
+main{
+    int x = 10;
+    loop {
+        int y = 5;
+        int z = 1;
+        if (x = 10) { 
+            break;
+        } else {
+            x = (x + 1);
+        }
+    }
+    int y = 10;
+}
+

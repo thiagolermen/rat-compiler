@@ -33,6 +33,28 @@ let pathFichiersRat = "../../../../../tests/tam/avec_fonction/fichiersRat/"
 
 
 (* requires ppx_expect in jbuild, and `opam install ppx_expect` *)
+
+
+let%expect_test "testLoop15" =
+  runtam (pathFichiersRat^"testLoop15.rat");
+  [%expect{| 24 |}]
+
+let%expect_test "testLoop14" =
+  runtam (pathFichiersRat^"testLoop14.rat");
+  [%expect{| 10 |}]
+
+let%expect_test "testLoop13" =
+  runtam (pathFichiersRat^"testLoop13.rat");
+  [%expect{| 5 |}]
+
+let%expect_test "testLoop12" =
+  runtam (pathFichiersRat^"testLoop12.rat");
+  [%expect{| 20 |}]
+
+let%expect_test "testLoop11" =
+  runtam (pathFichiersRat^"testLoop11.rat");
+  [%expect{| 10 |}]
+
 let%expect_test "testConditionnelleOptionnelle3" =
   runtam (pathFichiersRat^"testConditionnelleOptionnelle3.rat");
   [%expect{| 1 |}]

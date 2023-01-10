@@ -129,8 +129,8 @@ struct
     | Empty (* les nœuds ayant disparus: Const *)
     | ConditionnelleOptionnelle of expression * bloc
     | Loop of Tds.info_ast * bloc
-    | Break of string
-    | Continue of string
+    | Break of Tds.info_ast
+    | Continue of Tds.info_ast
 
 
   (* Structure des fonctions dans notre langage *)
@@ -189,8 +189,8 @@ type bloc = instruction list
   | Empty (* les nœuds ayant disparus: Const *)
   | ConditionnelleOptionnelle of expression * bloc
   | Loop of Tds.info_ast * bloc
-  | Break of string
-  | Continue of string
+  | Break of Tds.info_ast
+  | Continue of Tds.info_ast
 
 (* informations associées à l'identificateur (dont son nom), liste des paramètres, corps *)
 type fonction = Fonction of Tds.info_ast * Tds.info_ast list * bloc
@@ -226,8 +226,8 @@ type bloc = instruction list * int (* taille du bloc *)
   | Empty (* les nœuds ayant disparus: Const *)
   | ConditionnelleOptionnelle of expression * bloc
   | Loop of Tds.info_ast * bloc
-  | Break of string
-  | Continue of string
+  | Break of Tds.info_ast
+  | Continue of Tds.info_ast
 
 (* informations associées à l'identificateur (dont son nom), liste de paramètres, corps, expression de retour *)
 (* Plus besoin de la liste des paramètres mais on la garde pour les tests du placements mémoire *)

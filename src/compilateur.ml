@@ -55,14 +55,14 @@ end
 
 (* + passe de placement mémoire *)
 
-module CompilateurRat = Compilateur (PasseTdsRat) (PasseTypeRat) (PassePlacementRat) (PasseCodeNop)
+(* module CompilateurRat = Compilateur (PasseTdsRat) (PasseTypeRat) (PassePlacementRat) (PasseCodeNop) *)
 
 
 (* + passe de génération de code -> compilateur complet *)
 
-(*
+
 module CompilateurRat = Compilateur (PasseTdsRat) (PasseTypeRat) (PassePlacementRat) (PasseCodeRatToTam)
-*)
+
 
 
 open Lexing

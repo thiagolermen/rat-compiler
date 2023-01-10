@@ -1,0 +1,21 @@
+int f (int x){
+    l : loop {
+        if (x = 10) {
+            break;
+        } else {
+            x = (x + 1);
+        }
+    }
+
+    l : loop{
+        break;
+    }
+
+    return x;
+}
+
+main{
+    int x = 0;
+    int y = call f (x);
+    print y;
+}

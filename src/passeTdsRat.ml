@@ -81,7 +81,7 @@ let rec analyse_tds_expression tds e =
 (* Vérifie la bonne utilisation des identifiants et tranforme l'instruction
 en une instruction de type AstTds.instruction *)
 (* Erreur si mauvaise utilisation des identifiants *)
-let rec analyse_tds_instruction tds tds_loop oia _ i =
+let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
   match i with
   | AstSyntax.Declaration (t, n, e) ->
       begin
@@ -129,16 +129,16 @@ let rec analyse_tds_instruction tds tds_loop oia _ i =
       (* Analyse de la condition *)
       let nc = analyse_tds_expression tds c in
       (* Analyse du bloc then *)
-      let tast = analyse_tds_bloc tds tds_loop oia NoLoop t in
+      let tast = analyse_tds_bloc tds tds_loop oia ia_loop_opt t in
       (* Analyse du bloc else *)
-      let east = analyse_tds_bloc tds tds_loop oia NoLoop e in
+      let east = analyse_tds_bloc tds tds_loop oia ia_loop_opt e in
       (* Renvoie la nouvelle structure de la conditionnelle *)
       AstTds.Conditionnelle (nc, tast, east)
   | AstSyntax.TantQue (c,b) ->
       (* Analyse de la condition *)
       let nc = analyse_tds_expression tds c in
       (* Analyse du bloc *)
-      let bast = analyse_tds_bloc tds tds_loop oia NoLoop b in
+      let bast = analyse_tds_bloc tds tds_loop oia ia_loop_opt b in
       (* Renvoie la nouvelle structure de la boucle *)
       AstTds.TantQue (nc, bast)
   | AstSyntax.Retour (e) ->
@@ -158,7 +158,7 @@ let rec analyse_tds_instruction tds tds_loop oia _ i =
         (* Analyse de la condition *)
         let nc = analyse_tds_expression tds c in
         (* Analyse du bloc then *)
-        let tast = analyse_tds_bloc tds tds_loop oia NoLoop t in
+        let tast = analyse_tds_bloc tds tds_loop oia ia_loop_opt t in
         (* Renvoie la nouvelle structure de la conditionnelle optionnelle*)
         AstTds.ConditionnelleOptionnelle (nc, tast)
       end
@@ -168,14 +168,14 @@ let rec analyse_tds_instruction tds tds_loop oia _ i =
           match chercherGlobalementLoop tds_loop n with
             | None -> 
               begin
-                let info = InfoLoop(n) in
+                let info = InfoLoop(n, "", "") in
                 info_to_info_ast info
               end 
             | Some ia -> let () = begin[@alert unsafe "Warning : double déclaration dans loops imbriqués"]end in ia
         end in
       ajouter_loop tds_loop n info_ast;
       (* Analyse du bloc *)
-      let nli = analyse_tds_bloc tds tds_loop oia (info_ast_to_info info_ast) li in
+      let nli = analyse_tds_bloc tds tds_loop oia info_ast li in
       (* Renvoie la nouvelle structure de la boucle *)
       AstTds.Loop (info_ast, nli)
     | AstSyntax.Break n ->
@@ -183,20 +183,32 @@ let rec analyse_tds_instruction tds tds_loop oia _ i =
         if (n <> "") then
           begin
             match chercherGlobalementLoop tds_loop n with
-            | Some _ -> AstTds.Break n
+            | Some info_ast -> AstTds.Break info_ast
             | _ -> raise MauvaisNomLoop
           end
-        else AstTds.Break n
+        else 
+          begin
+            match info_ast_to_info ia_loop_opt with
+              | InfoLoop _ ->  AstTds.Break ia_loop_opt
+              | NoLoop ->  failwith "Break sans loop"
+              | _ -> failwith "Erreur interne"
+          end
       end
     | AstSyntax.Continue n ->
       begin
         if (n <> "") then
           begin
             match chercherGlobalementLoop tds_loop n with
-            | Some _ -> AstTds.Continue n
+            | Some info_ast -> AstTds.Continue info_ast
             | _ -> raise MauvaisNomLoop
           end 
-        else AstTds.Continue n
+        else
+          begin
+            match info_ast_to_info ia_loop_opt with
+              | InfoLoop _ ->  AstTds.Continue ia_loop_opt
+              | NoLoop ->  failwith "Continue sans loop"
+              | _ -> failwith "Erreur interne"
+          end
       end
 
 
@@ -250,7 +262,7 @@ let analyse_tds_fonction maintds tds_loop (AstSyntax.Fonction(t,n,lp,li))  =
             ajouter maintds n ia;
             ajouter tdsfonc n ia;
             let nlp = List.map (analyse_tds_parametre tdsfonc) lp in
-            let nli = analyse_tds_bloc tdsfonc tds_loop (Some ia) NoLoop li in
+            let nli = analyse_tds_bloc tdsfonc tds_loop (Some ia) (info_to_info_ast NoLoop) li in
             AstTds.Fonction(t, ia, nlp , nli)
           end
         | Some _ -> raise (DoubleDeclaration n)
@@ -265,5 +277,5 @@ let analyser (AstSyntax.Programme (fonctions,prog)) =
   let tds = creerTDSMere () in
   let tds_loop = creerTDSMereLoop () in
   let nf = List.map (analyse_tds_fonction tds tds_loop) fonctions in
-  let nb = analyse_tds_bloc tds tds_loop None NoLoop prog in
+  let nb = analyse_tds_bloc tds tds_loop None (info_to_info_ast NoLoop) prog in
   AstTds.Programme (nf,nb)

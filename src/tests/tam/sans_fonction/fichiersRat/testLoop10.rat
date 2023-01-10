@@ -1,0 +1,17 @@
+test{
+    int x = 0;
+    l1 : loop {
+        x = (x + 1);
+        if (x = 5) {
+            break;
+        }
+        int y = 0;
+        l2 : loop {
+            y = (y + 1);
+            if (y = 5) {
+                continue l1;
+            }
+        }
+    }
+    print x;
+}

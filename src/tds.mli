@@ -10,7 +10,7 @@ type info =
   (* Information associée à une fonction : son nom (utile pour l'appel), son type de retour et la liste des types des paramètres *)
   | InfoFun of string * typ * typ list
   (* Information associée à une loop : son nom *)
-  | InfoLoop of string
+  | InfoLoop of string * string * string
   (* Type asocié aux intructions et blocs qui ne sont pas internes à au moins une loop *)
   | NoLoop
 
@@ -73,3 +73,6 @@ val modifier_type_fonction : typ -> typ list -> info_ast -> unit
 
 (* Modifie l'emplacement (dépl, registre) si c'est une InfoVar, ne fait rien sinon *)
 val modifier_adresse_variable : int -> string -> info_ast -> unit
+
+(* Modifie si c'est une INfoLoop, ne fait rien sinon *)
+val modifier_ett_loop : info_ast -> string -> string -> unit

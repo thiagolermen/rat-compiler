@@ -1,0 +1,13 @@
+test{
+    int x = 0;
+    l : loop {
+        x = (x + 1);
+        if (x = 3) {
+            continue l;
+        }
+        if (x = 5) {
+            break;
+        }
+    }
+    print x;
+}

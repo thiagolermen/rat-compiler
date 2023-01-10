@@ -1,0 +1,10 @@
+test{
+    int x = 10;
+    x : loop {
+        if (x = 10) {
+            break x;
+        } else {
+            x = (x + 1);
+        }
+    }
+}

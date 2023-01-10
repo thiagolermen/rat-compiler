@@ -171,9 +171,32 @@ let rec analyser_code_instruction i  =
         ^ analyser_code_bloc b
         ^ ettfin ^ "\n"
       end
-    | AstPlacement.Loop _ -> failwith "A FAIRE"
-    | AstPlacement.Break _ -> failwith "A FAIRE"
-    | AstPlacement.Continue _ -> failwith "A FAIRE"
+    | AstPlacement.Loop (info_ast, b) -> 
+      begin
+        let ettdebut = getEtiquette() in
+        let ettfin = getEtiquette() in
+        modifier_ett_loop info_ast ettdebut ettfin;
+        label ettdebut 
+        ^ analyser_code_bloc b
+        ^ jump ettdebut
+        ^ label ettfin
+      end
+    | AstPlacement.Break info_ast ->
+      let ettfin = 
+        begin
+          match info_ast_to_info info_ast with
+            | InfoLoop (_, _, ef) -> ef
+            | _ -> failwith "" 
+        end in
+      jump ettfin
+    | AstPlacement.Continue info_ast ->
+      let ettdebut = 
+        begin
+          match info_ast_to_info info_ast with
+            | InfoLoop (_, ed, _) -> ed
+            | _ -> failwith "" 
+        end in
+      jump ettdebut
 
 
 (* Passe AstPlacement.bloc -> string *)

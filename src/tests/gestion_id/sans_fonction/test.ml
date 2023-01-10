@@ -14,6 +14,78 @@ let pathFichiersRat = "../../../../../tests/gestion_id/sans_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "testLoop1" =
+  let _ = compiler (pathFichiersRat^"testLoop1.rat") in ()
+
+let%test_unit "testLoop2" =
+  let _ = compiler (pathFichiersRat^"testLoop2.rat") in ()
+
+let%test_unit "testLoop3" =
+  let _ = compiler (pathFichiersRat^"testLoop3.rat") in ()
+
+let%test_unit "testLoop4" =
+  let _ = compiler (pathFichiersRat^"testLoop4.rat") in ()
+
+let%test_unit "testLoop5" =
+  let _ = compiler (pathFichiersRat^"testLoop5.rat") in ()
+
+let%test_unit "testLoop6" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop6.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
+let%test_unit "testLoop7" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop7.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
+let%test_unit "testLoop8" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop8.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
+
+let%test_unit "testLoop9" =
+  let _ = compiler (pathFichiersRat^"testLoop9.rat") in ()
+
+let%test_unit "testLoop10" =
+  let _ = compiler (pathFichiersRat^"testLoop10.rat") in ()
+  
+let%test_unit "testLoop11" =
+  let _ = compiler (pathFichiersRat^"testLoop11.rat") in ()
+
+let%test_unit "testLoop12" =
+  let _ = compiler (pathFichiersRat^"testLoop12.rat") in ()
+
+let%test_unit "testLoop13" =
+  let _ = compiler (pathFichiersRat^"testLoop13.rat") in ()
+
+let%test_unit "testLoop14" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop14.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
+let%test_unit "testLoop15" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop15.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
+let%test_unit "testLoop16" =
+  try
+    let _ = compiler (pathFichiersRat^"testLoop16.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
 let%test_unit "testConditionnelleTernaire1" =
   let _ = compiler (pathFichiersRat^"testConditionnelleTernaire1.rat") in ()
 

@@ -43,6 +43,27 @@ let pathFichiersRat = "../../../../../tests/placement/sans_fonction/fichiersRat/
 (*  TESTS *)
 (**********)
 
+let%test "testLoop3_2" = 
+  test (pathFichiersRat^"testLoop3.rat")  "main" ("z",2)  (3,"SB")
+
+let%test "testLoop3_1" = 
+  test (pathFichiersRat^"testLoop3.rat")  "main" ("y",2)  (3,"SB")
+
+let%test "testLoop2_3" = 
+  test (pathFichiersRat^"testLoop2.rat")  "main" ("z",1)  (2,"SB")
+
+let%test "testLoop2_2" = 
+  test (pathFichiersRat^"testLoop2.rat")  "main" ("y",2)  (1,"SB")
+
+let%test "testLoop2_1" = 
+  test (pathFichiersRat^"testLoop2.rat")  "main" ("y",1)  (1,"SB")
+
+let%test "testLoop1_1" = 
+  test (pathFichiersRat^"testLoop1.rat")  "main" ("x",1)  (0,"SB")
+
+let%test "testLoop1_2" = 
+  test (pathFichiersRat^"testLoop1.rat")  "main" ("y",1)  (1,"SB")
+
 let%test "testConditionnelleOptionnelle1_1" = 
   test (pathFichiersRat^"testConditionnelleOptionnelle1.rat")  "main" ("x",1)  (0,"SB")
 

@@ -14,6 +14,41 @@ let pathFichiersRat = "../../../../../tests/gestion_id/avec_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "testLoop17" = 
+  let _ = compiler (pathFichiersRat^"testLoop17.rat") in ()
+
+let%test_unit "testLoop18" = 
+  try 
+    let _ = compiler (pathFichiersRat^"testLoop18.rat")
+    in raise ErreurNonDetectee
+  with
+  | IdentifiantNonDeclare("y") -> ()
+
+let%test_unit "testLoop19" = 
+  let _ = compiler (pathFichiersRat^"testLoop19.rat") in ()
+
+let%test_unit "testLoop20" = 
+  let _ = compiler (pathFichiersRat^"testLoop20.rat") in ()
+
+let%test_unit "testLoop21" = 
+  let _ = compiler (pathFichiersRat^"testLoop21.rat") in ()
+
+let%test_unit "testLoop22" = 
+  let _ = compiler (pathFichiersRat^"testLoop22.rat") in ()
+
+let%test_unit "testLoop23" = 
+  let _ = compiler (pathFichiersRat^"testLoop23.rat") in ()
+
+let%test_unit "testLoop24" = 
+  let _ = compiler (pathFichiersRat^"testLoop24.rat") in ()
+  
+let%test_unit "testLoop25" = 
+  try 
+    let _ = compiler (pathFichiersRat^"testLoop25.rat")
+    in raise ErreurNonDetectee
+  with
+  | MauvaisNomLoop -> ()
+
 let%test_unit "testConditionnelleTernaire6" = 
   let _ = compiler (pathFichiersRat^"testConditionnelleTernaire6.rat") in ()
 

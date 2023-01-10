@@ -6,7 +6,7 @@ type info =
   | InfoConst of string * int
   | InfoVar of string * typ * int * string
   | InfoFun of string * typ * typ list
-  | InfoLoop of string
+  | InfoLoop of string * string * string
   | NoLoop
 
 (* Données stockées dans la tds  et dans les AST : pointeur sur une information *)
@@ -332,7 +332,7 @@ let string_of_info info =
   | InfoVar (n,t,dep,base) -> "Variable "^n^" : "^(string_of_type t)^" "^(string_of_int dep)^"["^base^"]"
   | InfoFun (n,t,tp) -> "Fonction "^n^" : "^(List.fold_right (fun elt tq -> if tq = "" then (string_of_type elt) else (string_of_type elt)^" * "^tq) tp "" )^
                       " -> "^(string_of_type t)
-  | InfoLoop n -> "Loop "^n
+  | InfoLoop (n, _, _) -> "Loop "^n
   | NoLoop -> "Bloc d'instructions non inclus dans une loop."
 
 (* Affiche la tds locale *)
@@ -384,6 +384,12 @@ let%test _ =
      match !i with
      |InfoVar (n,t,_,_) -> i:= InfoVar (n,t,d,b)
      | _ -> failwith "Appel modifier_adresse_variable pas sur un InfoVar"
+
+(* Modifie si c'est une INfoLoop, ne fait rien sinon *)
+let modifier_ett_loop i ettdebut ettfin =
+  match !i with
+     |InfoLoop (n, _, _) -> i:= InfoLoop (n, ettdebut, ettfin)
+     | _ -> failwith "Appel modifier_ett_loop pas sur un InfoLoop"
 
 let%test _ = 
   let info = InfoVar ("x", Rat, 4 , "SB") in

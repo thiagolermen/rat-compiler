@@ -33,6 +33,50 @@ let pathFichiersRat = "../../../../../tests/tam/sans_fonction/fichiersRat/"
 
 (* requires ppx_expect in jbuild, and `opam install ppx_expect` *)
 
+let%expect_test "testLoop11" =
+  runtam (pathFichiersRat^"testLoop11.rat");
+  [%expect{| 33 |}]
+
+let%expect_test "testLoop10" =
+  runtam (pathFichiersRat^"testLoop10.rat");
+  [%expect{| 5 |}]
+
+let%expect_test "testLoop9" =
+  runtam (pathFichiersRat^"testLoop9.rat");
+  [%expect{| 5 |}]
+
+let%expect_test "testLoop8" =
+  runtam (pathFichiersRat^"testLoop8.rat");
+  [%expect{| 5 |}]
+
+let%expect_test "testLoop7" =
+  runtam (pathFichiersRat^"testLoop7.rat");
+  [%expect{| 10 |}]
+
+let%expect_test "testLoop6" =
+  runtam (pathFichiersRat^"testLoop6.rat");
+  [%expect{| 24 |}]
+
+let%expect_test "testLoop5" =
+  runtam (pathFichiersRat^"testLoop5.rat");
+  [%expect{| 20 |}]
+
+let%expect_test "testLoop4" =
+  runtam (pathFichiersRat^"testLoop4.rat");
+  [%expect{| 10 |}]
+
+let%expect_test "testLoop3" =
+  runtam (pathFichiersRat^"testLoop3.rat");
+  [%expect{| 10 |}]
+
+let%expect_test "testLoop2" =
+  runtam (pathFichiersRat^"testLoop2.rat");
+  [%expect{| 10 |}]
+
+let%expect_test "testLoop1" =
+  runtam (pathFichiersRat^"testLoop1.rat");
+  [%expect{| 10 |}]
+
 let%expect_test "testConditionnelleOptionnelle1" =
   runtam (pathFichiersRat^"testConditionnelleOptionnelle1.rat");
   [%expect{| 1 |}]
