@@ -8,6 +8,12 @@ type t1 = Ast.AstSyntax.programme
 type t2 = Ast.AstTds.programme
 
 
+(* analyse_tds_affectablen : tds -> AstSyntax.affectable -> bool -> AstTds.affectable *)
+(* Paramètre tds : la table des symboles courante *)
+(* Paramètre a : l'affectable à analyser *)
+(* Vérifie la bonne utilisation des identifiants et tranforme l'affectable
+en une affectable de type AstTds.affectable *)
+(* Erreur si mauvaise utilisation des identifiants *)
 let rec analyse_tds_affectable tds a modif =
   match a with
     | AstSyntax.Ident n ->
@@ -25,7 +31,7 @@ let rec analyse_tds_affectable tds a modif =
     end
     | AstSyntax.Valeur v -> AstTds.Valeur (analyse_tds_affectable tds v modif)
 
-(* analyse_tds_expression : tds -> AstSyntax.expression -> AstTds.expression *)
+(* analyse_tds_expression : tds -> C -> AstTds.expression *)
 (* Paramètre tds : la table des symboles courante *)
 (* Paramètre e : l'expression à analyser *)
 (* Vérifie la bonne utilisation des identifiants et tranforme l'expression
@@ -165,16 +171,18 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
     | AstSyntax.Loop (n, li) -> 
       let info_ast = 
         begin
-          match chercherGlobalementLoop tds_loop n with
+          (* Vérifie le type de Info et reivoie le info_ast associé qui a été trouvé dans la TDS*)
+          match chercherGlobalement tds_loop n with
             | None -> 
               begin
                 let info = InfoLoop(n, "", "") in
                 info_to_info_ast info
               end 
+            (* Si identificateur déjà définie, reivoi un Warning *)
             | Some _ -> let () = begin[@alert unsafe "Warning : double déclaration dans loops imbriqués"]end in 
                         let info = InfoLoop(n, "", "") in info_to_info_ast info
         end in
-      ajouter_loop tds_loop n info_ast;
+      ajouter tds_loop n info_ast;
       (* Analyse du bloc *)
       let nli = analyse_tds_bloc tds tds_loop oia info_ast li in
       (* Renvoie la nouvelle structure de la boucle *)
@@ -183,12 +191,14 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
       begin
         if (n <> "") then
           begin
-            match chercherGlobalementLoop tds_loop n with
+            (* Retourne le info trouvé dans la TDS - raise Exception si None*)
+            match chercherGlobalement tds_loop n with
             | Some info_ast -> AstTds.Break info_ast
             | _ -> raise MauvaisNomLoop
           end
         else 
           begin
+            (* Retourne le info trouvé dans la TDS - raise Exception si None*)
             match info_ast_to_info ia_loop_opt with
               | InfoLoop _ ->  AstTds.Break ia_loop_opt
               | NoLoop ->  failwith "Break sans loop"
@@ -199,12 +209,14 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
       begin
         if (n <> "") then
           begin
-            match chercherGlobalementLoop tds_loop n with
+            (* Retourne le info trouvé dans la TDS - raise Exception si None*)
+            match chercherGlobalement tds_loop n with
             | Some info_ast -> AstTds.Continue info_ast
             | _ -> raise MauvaisNomLoop
           end 
         else
           begin
+            (* Retourne le info trouvé dans la TDS - raise Exception si None*)
             match info_ast_to_info ia_loop_opt with
               | InfoLoop _ ->  AstTds.Continue ia_loop_opt
               | NoLoop ->  failwith "Continue sans loop"
@@ -251,7 +263,7 @@ let analyse_tds_parametre tdsfonc (ptype, pnom) =
 (* Paramètre : la fonction à analyser *)
 (* Vérifie la bonne utilisation des identifiants et tranforme la fonction
 en une fonction de type AstTds.fonction *)
-(* Erreur si mauvaise utilisation des identifiants *)
+(* Erreur si double déclaration de parametre *)
 let analyse_tds_fonction maintds tds_loop (AstSyntax.Fonction(t,n,lp,li))  =
       match chercherLocalement maintds n with
         | None ->
@@ -273,10 +285,9 @@ let analyse_tds_fonction maintds tds_loop (AstSyntax.Fonction(t,n,lp,li))  =
 (* Paramètre : le programme à analyser *)
 (* Vérifie la bonne utilisation des identifiants et tranforme le programme
 en un programme de type AstTds.programme *)
-(* Erreur si mauvaise utilisation des identifiants *)
 let analyser (AstSyntax.Programme (fonctions,prog)) =
   let tds = creerTDSMere () in
-  let tds_loop = creerTDSMereLoop () in
+  let tds_loop = creerTDSMere () in
   let nf = List.map (analyse_tds_fonction tds tds_loop) fonctions in
   let nb = analyse_tds_bloc tds tds_loop None (info_to_info_ast NoLoop) prog in
   AstTds.Programme (nf,nb)

@@ -1,4 +1,4 @@
-(* Module de la passe de gestion des identifiants *)
+(* Module de la passe génération de code *)
 (* doit être conforme à l'interface Passe *)
 open Tds
 open Ast
@@ -10,6 +10,9 @@ type t1 = Ast.AstPlacement.programme
 type t2 = string
 
 (* analyse_code_pointeur : AstPlacement.affectable -> (typ * String) *)
+(* Paramètre a : le pointeur (affectable) à analyser *)
+(* Génère un code TAM pour les pointeurs après placement de memoire et aussi son type *)
+(* Erreur si mauvaise utilisation de TDS en génération de code *)
 let rec analyse_code_pointeur a =
   match a with
     | AstType.Ident info_ast -> 
@@ -26,7 +29,11 @@ let rec analyse_code_pointeur a =
           | _ -> failwith "Erreur interne"
       end
 
-(* analyse_code_affectable : AstPlacement.affectable -> String *)
+(* analyse_code_affectable : AstPlacement.affectable -> bool -> String *)
+(* Paramètre a : l'affectable à analiser *)
+(* Paramètre store_in_memory : boolean pour vérifier si l'opération est STOREX ou LOADX*)
+(* Génère un code TAM pour les affectables après placement de memoire *)
+(* Erreur si mauvaise utilisation de TDS en génération de code *)
 let analyser_code_affectable a store_in_memory =
   match a with
     | AstType.Ident info_ast ->
@@ -54,6 +61,9 @@ let analyser_code_affectable a store_in_memory =
       end
 
 (* Passe AstPlacement.expression -> string *)
+(* Paramètre e : l'expression à analiser *)
+(* Génère un code TAM pour les expressions après placement de memoire *)
+(* Erreur si mauvaise utilisation de TDS en génération de code *)
 let rec analyser_code_expression e =
   match e with
     | AstType.AppelFonction(ia, lexpr) ->
@@ -107,6 +117,9 @@ let rec analyser_code_expression e =
       end
 
 (* Passe AstPlacement.instruction -> string *)
+(* Paramètre i : l'instruction à analiser *)
+(* Génère un code TAM pour les instructions après placement de memoire *)
+(* Erreur si mauvaise utilisation de TDS en génération de code *)
 let rec analyser_code_instruction i  =
   match i with
     | AstPlacement.Declaration(info, e) ->
@@ -200,12 +213,17 @@ let rec analyser_code_instruction i  =
 
 
 (* Passe AstPlacement.bloc -> string *)
+(* Paramètre li : le liste d'instructions (bloc) à analiser *)
+(* Paramètre taillevarlocales : taille des variables locales du bloc *)
+(* Génère un code TAM pour les instructions après placement de memoire *)
 and analyser_code_bloc (li, taillevarlocales) =
-(* concaténer le code des instructions li et "POP taillevarlocales" *)
 String.concat "" (List.map analyser_code_instruction li)
 ^ (Tam.pop 0 taillevarlocales)
 
 (* Passe AstPlacement.fonction -> string *)
+(* Paramètre fonction : le fonction à analiser *)
+(* Génère un code TAM pour le fonction après placement de memoire *)
+(* Erreur si mauvaise utilisation de TDS en génération de code *)
 let analyser_code_fonction (AstPlacement.Fonction(info, _, (li, _))) =
   match info_ast_to_info info with
     | InfoFun(name, _, _) ->
@@ -216,6 +234,8 @@ let analyser_code_fonction (AstPlacement.Fonction(info, _, (li, _))) =
 
 
 (* Passe AstPlacement.programme -> string *)
+(* Paramètre programme : le programme à analiser *)
+(* Génère un code TAM pour le programme après placement de memoire *)
 let analyser (AstPlacement.Programme(fonctions, bloc)) =
   getEntete()
   ^ String.concat "" (List.map analyser_code_fonction fonctions)

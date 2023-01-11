@@ -9,7 +9,7 @@ type info =
   | InfoVar of string * typ * int * string
   (* Information associée à une fonction : son nom (utile pour l'appel), son type de retour et la liste des types des paramètres *)
   | InfoFun of string * typ * typ list
-  (* Information associée à une loop : son nom *)
+  (* Information associée à une loop : son nom * etiquette debut loop * etiquette fin loop*)
   | InfoLoop of string * string * string
   (* Type asocié aux intructions et blocs qui ne sont pas internes à au moins une loop *)
   | NoLoop
@@ -17,20 +17,15 @@ type info =
 (* Table des symboles *)
 type tds 
 
-(* Table des symboles pour le loop *)
-type tds_loop
-
 (* Données stockées dans la tds et dans les AST : pointeur sur une information *)
 type info_ast
 
 (* Création d'une table des symboles à la racine *)
 val creerTDSMere : unit -> tds 
-val creerTDSMereLoop : unit -> tds_loop
 
 (* Création d'une table des symboles fille *)
 (* Le paramètre est la table mère *)
 val creerTDSFille : tds -> tds 
-val creerTDSFilleLoop : tds_loop -> tds_loop 
 
 (* Ajoute une information dans la table des symboles locale *)
 (* tds : la tds courante *)
@@ -39,19 +34,16 @@ val creerTDSFilleLoop : tds_loop -> tds_loop
 (* Si l'identificateur est déjà présent dans TDS, l'information est écrasée *)
 (* retour : unit *)
 val ajouter : tds -> string -> info_ast -> unit 
-val ajouter_loop : tds_loop -> string -> info_ast -> unit
 
 (* Recherche les informations d'un identificateur dans la tds locale *)
 (* Ne cherche que dans la tds de plus bas niveau *)
 val chercherLocalement : tds -> string -> info_ast option 
-val chercherLocalementLoop : tds_loop -> string -> info_ast option 
 
 (* Recherche les informations d'un identificateur dans la tds globale *)
 (* Si l'identificateur n'est pas présent dans la tds de plus bas niveau *)
 (* la recherche est effectuée dans sa table mère et ainsi de suite *)
 (* jusqu'à trouver (ou pas) l'identificateur *)
 val chercherGlobalement : tds -> string -> info_ast option 
-val chercherGlobalementLoop : tds_loop -> string -> info_ast option 
 
 (* Affiche la tds locale *)
 val afficher_locale : tds -> unit 
@@ -74,5 +66,5 @@ val modifier_type_fonction : typ -> typ list -> info_ast -> unit
 (* Modifie l'emplacement (dépl, registre) si c'est une InfoVar, ne fait rien sinon *)
 val modifier_adresse_variable : int -> string -> info_ast -> unit
 
-(* Modifie si c'est une INfoLoop, ne fait rien sinon *)
+(* Modifie l'etiquette de debut et fin de loop (nom * errdebut * ettfin)*)
 val modifier_ett_loop : info_ast -> string -> string -> unit

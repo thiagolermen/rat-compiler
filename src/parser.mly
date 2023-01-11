@@ -73,6 +73,7 @@ param : t=typ n=ID  {(t,n)}
 
 bloc : AO li=i* AF      {li}
 
+(* Non-terminal affectable *)
 a :
 | n=ID                    {Ident n}
 | PO MULT af=a PF         {Valeur af}
@@ -85,7 +86,9 @@ i :
 | IF exp=e li1=bloc ELSE li2=bloc   {Conditionnelle (exp,li1,li2)}
 | WHILE exp=e li=bloc               {TantQue (exp,li)}
 | RETURN exp=e PV                   {Retour (exp)}
+(* Conditionnelle Optionnelle *)
 | IF exp=e li=bloc                  {ConditionnelleOptionnelle (exp,li)}
+(* Loop à là Rust *)
 | LOOP li=bloc                      {Loop ("", li)}    
 | n=ID DEUX_PT LOOP li=bloc         {Loop (n, li)} 
 | BREAK PV                          {Break ("")} 
@@ -115,9 +118,11 @@ e :
 | PO e1=e INF e2=e PF     {Binaire (Inf,e1,e2)}
 | PO exp=e PF             {exp}
 | NULL                    {Null}
+(* Pointeurs *)
 | PO NEW t=typ PF         {New t}
 | ESP n=ID                {Address n}
 | affect=a                {Affectable affect}
+(* Conditionnelle Ternaire *)
 | PO e1=e PT_INT e2=e DEUX_PT e3=e PF {ConditionnelleTernaire (e1, e2, e3)}
 
 

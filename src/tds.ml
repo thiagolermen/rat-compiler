@@ -19,13 +19,6 @@ type tds =
 (* Table courante : la table mère - la table courante *)
 | Courante of tds * (string,info_ast) Hashtbl.t
 
-(* Table des loops des symboles hiérarchique *)
-(* Les tables locales sont codées à l'aide d'une hashtable *)
-type tds_loop =
-| NulleTdsLoop
-(* Table courante : la table mère - la table courante *)
-| CouranteTdsLoop of tds_loop * (string,info_ast) Hashtbl.t
-
 (* Créer une information à associer à l'AST à partir d'une info *)
 let info_to_info_ast i = ref i
 
@@ -35,17 +28,9 @@ let info_ast_to_info i = !i
 (* Création d'une table des symboles à la racine *)
 let creerTDSMere () = Courante (Nulle, Hashtbl.create 100)
 
-(* Création d'une table des symboles loop à la racine *)
-let creerTDSMereLoop () = CouranteTdsLoop (NulleTdsLoop, Hashtbl.create 100)
-
 (* Création d'une table des symboles fille *)
 (* Le paramètre est la table mère *)
 let creerTDSFille mere = Courante (mere, Hashtbl.create 100)
-
-(* Création d'une table des symboles loop fille *)
-(* Le paramètre est la table mère *)
-let creerTDSFilleLoop mere = CouranteTdsLoop (mere, Hashtbl.create 100)
-
 
 (* Ajoute une information dans la table des symboles locale *)
 (* tds : la tds courante *)
@@ -58,30 +43,12 @@ let ajouter tds nom info =
   | Nulle -> failwith "Ajout dans une table vide"
   | Courante (_,c) -> Hashtbl.add c nom info
     
-(* Ajoute une information dans la table des symboles locale *)
-(* tds_loop : la tds loop courante *)
-(* string : le nom de l'identificateur *)
-(* info : l'information à associer à l'identificateur *)
-(* Si l'identificateur est déjà présent dans TDS loop, l'information est écrasée *)
-(* retour : unit *)
-let ajouter_loop tds_loop nom info =
-  match tds_loop with
-  | NulleTdsLoop -> failwith "Ajout dans une table vide"
-  | CouranteTdsLoop (_,c) -> Hashtbl.add c nom info
-
 (* Recherche les informations d'un identificateur dans la tds locale *)
 (* Ne cherche que dans la tds de plus bas niveau *)
 let chercherLocalement tds nom =
   match tds with
   | Nulle -> None
   | Courante (_,c) ->  find_opt c nom 
-
-(* Recherche les informations d'un identificateur dans la tds loop locale *)
-(* Ne cherche que dans la tds de plus bas niveau *)
-let chercherLocalementLoop tds_loop nom =
-  match tds_loop with
-  | NulleTdsLoop -> None
-  | CouranteTdsLoop (_,c) ->  find_opt c nom 
 
 (* TESTS *)
 let%test _ = chercherLocalement (creerTDSMere()) "x" = None
@@ -202,18 +169,6 @@ let rec chercherGlobalement tds nom =
     match find_opt c nom with
       | Some _ as i -> i
       | None -> chercherGlobalement m nom 
-
-(* Recherche les informations d'un identificateur dans la tds globale *)
-(* Si l'identificateur n'est pas présent dans la tds de plus bas niveau *)
-(* la recherche est effectuée dans sa table mère et ainsi de suite *)
-(* jusqu'à trouver (ou pas) l'identificateur *)
-let rec chercherGlobalementLoop tds_loop nom =
-  match tds_loop with
-  | NulleTdsLoop -> None
-  | CouranteTdsLoop (m,c) ->
-    match find_opt c nom with
-      | Some _ as i -> i
-      | None -> chercherGlobalementLoop m nom 
 
 (* TESTS *)
 
@@ -385,7 +340,7 @@ let%test _ =
      |InfoVar (n,t,_,_) -> i:= InfoVar (n,t,d,b)
      | _ -> failwith "Appel modifier_adresse_variable pas sur un InfoVar"
 
-(* Modifie si c'est une INfoLoop, ne fait rien sinon *)
+(* Modifie l'etiquette de debut et fin de loop (nom * errdebut * ettfin)*)
 let modifier_ett_loop i ettdebut ettfin =
   match !i with
      |InfoLoop (n, _, _) -> i:= InfoLoop (n, ettdebut, ettfin)

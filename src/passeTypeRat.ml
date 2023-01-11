@@ -1,4 +1,4 @@
-(* Module de la passe de gestion des identifiants *)
+(* Module de la passe de typage *)
 (* doit être conforme à l'interface Passe *)
 open Tds
 open Type
@@ -9,11 +9,11 @@ open AstType
 type t1 = Ast.AstTds.programme
 type t2 = Ast.AstType.programme
 
-(* analyse_type_affectable : AstSyntax.affectable -> AstType.affectable *)
+(* analyse_type_affectable : AstSyntax.affectable -> AstType.affectable * typ*)
 (* Paramètre a: l'affectable à analyser *)
 (* Vérifie la bonne utilisation du type et tranforme l'affectable
 en un affectable de type AstType.affectable et renvoie aussi le type de l'affectable *)
-(* Erreur si problème de typage *)
+(* Erreur si problème de typage (Exception NotAPointer ou Erreur) *)
 let rec analyse_type_affectable a = 
   match a with
     | AstTds.Ident info_ast ->
@@ -97,10 +97,10 @@ let rec analyse_type_expression e =
       end
 
 
-(* analyse_type_instruction : AstTds.instruction ->  -> AstType.instruction *)
+(* analyse_type_instruction : AstTds.instruction -> AstType.instruction *)
 (* Paramètre i : l'instruction à analyser *)
 (* Vérifie la bonne utilisation du type et tranforme l'instruction
-en un instruction de type AstType.instruction et renvoie aussi le type de l'instruction *)
+en un instruction de type AstType.instruction *)
 (* Erreur si problème de typage *)
 let rec analyse_type_instruction i =
   match i with
@@ -171,7 +171,7 @@ let rec analyse_type_instruction i =
 
 (* analyse_type_bloc : AstTds.bloc -> AstType.bloc *)
 (* Paramètre li : liste d'instructions à analyser *)
-(* Analyse chaque instruction de la liste li *)
+(* Analyse chaque instruction de la liste li et transforme le bloc en un bloc de type AstType.bloc*)
 and analyse_type_bloc li = List.map analyse_type_instruction li
 
 (* analyse_type_fonction : AstTds.fonction -> AstType.fonction *)
