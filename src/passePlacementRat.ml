@@ -70,11 +70,6 @@ let rec analyse_placement_instruction (i, depl, reg) =
         | _ -> failwith "Erreur interne."
       end
     | AstType.Empty -> (AstPlacement.Empty, 0)
-    | AstType.ConditionnelleOptionnelle (e, b)-> 
-      begin
-        let nb = analyse_placement_bloc b depl reg in
-        (AstPlacement.ConditionnelleOptionnelle(e, nb), 0)
-      end
     | AstType.Loop (info_ast, b) -> 
       begin
         let nb = analyse_placement_bloc b depl reg in

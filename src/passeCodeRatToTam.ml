@@ -175,15 +175,6 @@ let rec analyser_code_instruction i  =
             ^ Tam.return t tp
       end
     | AstPlacement.Empty -> ""
-    | AstPlacement.ConditionnelleOptionnelle (e, b) ->
-      begin
-        let _ = getEtiquette() in
-        let ettfin = getEtiquette() in
-        analyser_code_expression e
-        ^ Tam.jumpif 0 ettfin
-        ^ analyser_code_bloc b
-        ^ ettfin ^ "\n"
-      end
     | AstPlacement.Loop (info_ast, b) -> 
       begin
         let ettdebut = getEtiquette() in

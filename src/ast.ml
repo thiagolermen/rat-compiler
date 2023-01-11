@@ -67,8 +67,6 @@ and instruction =
   | TantQue of expression * bloc
   (* return d'une fonction *)
   | Retour of expression
-  (* Contitionelle Optionelle représentée par la condition et le bloc then*)
-  | ConditionnelleOptionnelle of expression * bloc
   (* Loop représentée par le nom et le bloc *)
   | Loop of string * bloc
   (* Break représentée par le nom *)
@@ -127,7 +125,6 @@ struct
     | TantQue of expression * bloc
     | Retour of expression * Tds.info_ast  (* les informations sur la fonction à laquelle est associé le retour *)
     | Empty (* les nœuds ayant disparus: Const *)
-    | ConditionnelleOptionnelle of expression * bloc
     | Loop of Tds.info_ast * bloc
     | Break of Tds.info_ast
     | Continue of Tds.info_ast
@@ -187,7 +184,6 @@ type bloc = instruction list
   | TantQue of expression * bloc
   | Retour of expression * Tds.info_ast
   | Empty (* les nœuds ayant disparus: Const *)
-  | ConditionnelleOptionnelle of expression * bloc
   | Loop of Tds.info_ast * bloc
   | Break of Tds.info_ast
   | Continue of Tds.info_ast
@@ -224,7 +220,6 @@ type bloc = instruction list * int (* taille du bloc *)
   | TantQue of expression * bloc
   | Retour of expression * int * int (* taille du retour et taille des paramètres *)
   | Empty (* les nœuds ayant disparus: Const *)
-  | ConditionnelleOptionnelle of expression * bloc
   | Loop of Tds.info_ast * bloc
   | Break of Tds.info_ast
   | Continue of Tds.info_ast

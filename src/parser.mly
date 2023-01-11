@@ -87,7 +87,7 @@ i :
 | WHILE exp=e li=bloc               {TantQue (exp,li)}
 | RETURN exp=e PV                   {Retour (exp)}
 (* Conditionnelle Optionnelle *)
-| IF exp=e li=bloc                  {ConditionnelleOptionnelle (exp,li)}
+| IF exp=e li=bloc                  {Conditionnelle (exp,li,[])}
 (* Loop à là Rust *)
 | LOOP li=bloc                      {Loop ("", li)}    
 | n=ID DEUX_PT LOOP li=bloc         {Loop (n, li)} 

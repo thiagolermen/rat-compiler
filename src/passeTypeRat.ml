@@ -157,13 +157,6 @@ let rec analyse_type_instruction i =
         | _ -> failwith("Erreur interne.")
     end
   | AstTds.Empty -> (AstType.Empty)
-  | AstTds.ConditionnelleOptionnelle (e, b) -> 
-    let (ne, texp) = analyse_type_expression e in 
-    if est_compatible Bool texp then
-      let nbthen = analyse_type_bloc b in
-      (AstType.ConditionnelleOptionnelle(ne, nbthen))
-    else 
-      raise (TypeInattendu (texp, Bool))
   | AstTds.Loop (info_ast, bloc) -> AstType.Loop (info_ast, analyse_type_bloc bloc)
   | AstTds.Break info_ast -> AstType.Break info_ast
   | AstTds.Continue info_ast -> AstType.Continue info_ast

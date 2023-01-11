@@ -159,15 +159,6 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
           let ne = analyse_tds_expression tds e in
           AstTds.Retour (ne,ia)
       end
-  | AstSyntax.ConditionnelleOptionnelle (c, t) ->
-      begin
-        (* Analyse de la condition *)
-        let nc = analyse_tds_expression tds c in
-        (* Analyse du bloc then *)
-        let tast = analyse_tds_bloc tds tds_loop oia ia_loop_opt t in
-        (* Renvoie la nouvelle structure de la conditionnelle optionnelle*)
-        AstTds.ConditionnelleOptionnelle (nc, tast)
-      end
     | AstSyntax.Loop (n, li) -> 
       let info_ast = 
         begin
@@ -201,7 +192,7 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
             (* Retourne le info trouvé dans la TDS - raise Exception si None*)
             match info_ast_to_info ia_loop_opt with
               | InfoLoop _ ->  AstTds.Break ia_loop_opt
-              | NoLoop ->  failwith "Break sans loop"
+              | NoLoop ->  raise BreakSansLoop
               | _ -> failwith "Erreur interne"
           end
       end
@@ -219,7 +210,7 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
             (* Retourne le info trouvé dans la TDS - raise Exception si None*)
             match info_ast_to_info ia_loop_opt with
               | InfoLoop _ ->  AstTds.Continue ia_loop_opt
-              | NoLoop ->  failwith "Continue sans loop"
+              | NoLoop ->  raise ContinueSansLoop
               | _ -> failwith "Erreur interne"
           end
       end

@@ -87,8 +87,6 @@ struct
     | TantQue (c,b) -> "TantQue  : TQ "^(string_of_expression c)^"\n"^
                                   "FAIRE \n"^((List.fold_right (fun i tq -> (string_of_instruction i)^tq) b ""))^"\n"
     | Retour (e) -> "Retour  : RETURN "^(string_of_expression e)^"\n"
-    | ConditionnelleOptionnelle (c,t) -> "ConditionnelleOptionnelle : IF "^(string_of_expression c)^"\n"^
-                                  "THEN \n"^((List.fold_right (fun i tq -> (string_of_instruction i)^tq) t ""))^"\n"
     | Loop (n, b) -> "Loop "^n^" : LOOP \n"^((List.fold_right (fun i tq -> (string_of_instruction i)^tq) b ""))^"\n"
     | Break n -> "Break "^n^"\n"
     | Continue n -> "Continue "^n^"\n"
