@@ -98,6 +98,7 @@ typ :
 | BOOL          {Bool}
 | INT           {Int}
 | RAT           {Rat}
+| PO t=typ PF   {t}
 | t=typ MULT    {Pointeur (t)}
 
 e : 

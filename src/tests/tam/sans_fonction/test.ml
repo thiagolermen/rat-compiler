@@ -35,7 +35,7 @@ let pathFichiersRat = "../../../../../tests/tam/sans_fonction/fichiersRat/"
 
 let%expect_test "testLoop11" =
   runtam (pathFichiersRat^"testLoop11.rat");
-  [%expect{| 33 |}]
+  [%expect{| 30 |}]
 
 let%expect_test "testLoop10" =
   runtam (pathFichiersRat^"testLoop10.rat");

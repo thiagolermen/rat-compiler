@@ -171,7 +171,8 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
                 let info = InfoLoop(n, "", "") in
                 info_to_info_ast info
               end 
-            | Some ia -> let () = begin[@alert unsafe "Warning : double déclaration dans loops imbriqués"]end in ia
+            | Some _ -> let () = begin[@alert unsafe "Warning : double déclaration dans loops imbriqués"]end in 
+                        let info = InfoLoop(n, "", "") in info_to_info_ast info
         end in
       ajouter_loop tds_loop n info_ast;
       (* Analyse du bloc *)
