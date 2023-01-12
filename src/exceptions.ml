@@ -18,5 +18,7 @@ exception RetourDansMain
 
 (* Erreur dans l'identifiant d'un loop lors d'un continue ou break *)
 exception MauvaisNomLoop
+(* Utilisation d'un break sans être dans une boucle loop*)
 exception BreakSansLoop
+(* Utilisation d'un continue sans être dans une boucle loop*)
 exception ContinueSansLoop
