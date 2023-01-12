@@ -13,7 +13,6 @@ let pathFichiersRat = "../../../../../tests/gestion_id/sans_fonction/fichiersRat
 (**********)
 (*  TESTS *)
 (**********)
-
 let%test_unit "testLoop1" =
   let _ = compiler (pathFichiersRat^"testLoop1.rat") in ()
 
