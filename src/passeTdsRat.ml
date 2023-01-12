@@ -169,7 +169,7 @@ let rec analyse_tds_instruction tds tds_loop oia ia_loop_opt i =
                 info_to_info_ast info
               end 
             (* Si identificateur déjà définie, reivoi un Warning *)
-            | Some _ -> let () = print_string "Warning : double déclaration dans loops imbriqués\n" in 
+            | Some _ -> let () = begin[@alert unsafe "Warning : double déclaration dans loops imbriqués"]end in 
                         let info = InfoLoop(n, "", "") in info_to_info_ast info
         end in
       ajouter tds_loop n info_ast;

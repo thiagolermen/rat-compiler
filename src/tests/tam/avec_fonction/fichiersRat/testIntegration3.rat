@@ -1,0 +1,42 @@
+int f (rat r int* x){
+    int ret = 0;
+    if (denom r = 4) {
+        int z = (*x);
+        while (z < 7) {
+            z = (z + 1);
+        }
+        ret = z;
+    } else {
+        ret = -1;
+    }
+
+    print ret;
+
+    if (ret < 0) {
+        ret = ((ret = -1) ? 0 : (ret * 7));
+    }
+
+    print ret;
+    return ret;
+}
+
+(int *) g (bool b int x int y){
+    if b {
+        print x;
+        return &x;
+    } else {
+        print y;
+        return &y;
+    }
+}
+
+main{
+    rat r = [3/5];
+    int* x = (new int);
+    (*x) = 3;
+    int z = call f (r x);
+    int u = 5;
+    int v = 4;
+    int* ad = call g ((u < v) u v);
+    int** a = &ad;
+}
